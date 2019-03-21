@@ -25,7 +25,7 @@ import BPTool as bt
 
 
 """========== Define  ============================="""
-SaveResult = True # True False
+SaveResult2CSV = False # True False
 
 
 InputPath = ct.GetFilePath()
@@ -36,457 +36,134 @@ GetFilePath_List = []   # 定义一个列表，用来存放txt文件名
 GetAllFileDta_List = []  
 
 
-b=np.array([])
-
 """ 將 InputPath 路徑下 所有txt開啟並讀取 """
 for InputFile in glob.glob(os.path.join(InputPath, '*.txt')):
         GetFilePath_List.append(InputFile)
         GetFileName = os.path.basename(InputFile) 
-        GetFileData = pd.read_csv(r''+InputFile) # 原始為單斜線須為双斜線才行，或加上r后变为原始字符串
-        #print(GetFileData)
 
-        
         """ 依照txt檔名，存入個別變數  """
-        if GetFileName == '01_AMP_Reg_60_30_80_S1.txt':
-            with open(InputFile, 'r', newline = '') as filereader: 
-                DtaFram_01_AMP_Reg_60_30_80_S1 = pd.read_csv(filereader) # Get Data and ignore first index and PutIn DataFrame format
-                DataArray = np.array(DtaFram_01_AMP_Reg_60_30_80_S1) # DataFrame format PutIn to Array format for turn to Value
-                Dta_01_AMP_Reg_60_30_80_S1 = list(map(int, DataArray)) # String to Value and PutIn List format
-                Dta_01_AMP_Reg_60_30_80_S1 = np.array(Dta_01_AMP_Reg_60_30_80_S1) # List turn to Array 
-                
-#                GetArrayLength = len(Dta_01_AMP_Reg_60_30_80_S1)
-                DtaAmp_01_AMP_Reg_60_30_80_S1 = Dta_01_AMP_Reg_60_30_80_S1[0::2] # Divide Amp
-                DtaMMHg_01_AMP_Reg_60_30_80_S1 = Dta_01_AMP_Reg_60_30_80_S1[1::2] # Divide mmHg
+#        if GetFileName == '01_AMP_Reg_60_30_80_S1.txt':
+#            with open(InputFile, 'r', newline = '') as filereader: 
+#                DtaFram_01_AMP_Reg_60_30_80_S1 = pd.read_csv(filereader) # Get Data and ignore first index and PutIn DataFrame format
+#                DataArray = np.array(DtaFram_01_AMP_Reg_60_30_80_S1) # DataFrame format PutIn to Array format for turn to Value
+#                Dta_01_AMP_Reg_60_30_80_S1 = list(map(int, DataArray)) # String to Value and PutIn List format
+#                Dta_01_AMP_Reg_60_30_80_S1 = np.array(Dta_01_AMP_Reg_60_30_80_S1) # List turn to Array 
+#                
+#
+#                DtaAmp_01_AMP_Reg_60_30_80_S1 = Dta_01_AMP_Reg_60_30_80_S1[0::2] # Divide Amp
+#                DtaMMHg_01_AMP_Reg_60_30_80_S1 = Dta_01_AMP_Reg_60_30_80_S1[1::2] # Divide mmHg
 
-#                print("Max Amp Index\n",np.where( DtaAmp_01_AMP_Reg_60_30_80_S1 == np.max(DtaAmp_01_AMP_Reg_60_30_80_S1) ))
-#                print("Reg\n",Dta_01_AMP_Reg_60_30_80_S1) 
-#                print("\nAMP\n",DtaAmp_01_AMP_Reg_60_30_80_S1)
-#                print("\nmmHg\n",DtaMMHg_01_AMP_Reg_60_30_80_S1)
-   
-    
-        elif GetFileName == '02_AMP_Reg_60_30_80_S2.txt':
-            with open(InputFile, 'r', newline = '') as filereader: 
-                ReadFile_DtaFram = pd.read_csv(filereader) # Get Data and PutIn DataFrame format
-                DataArray = np.array(ReadFile_DtaFram) # DataFrame format turn to Array format
-                DtaArray = list(map(int, DataArray)) # list, String to Value
-                DtaArray = np.array(DtaArray) # List turn to Array 
-                
-                DtaAmp_02_AMP_Reg_60_30_80_S2 = DtaArray[0::2] # Divide Amp
-                DtaMMHg_02_AMP_Reg_60_30_80_S2 = DtaArray[1::2] # Divide mmHg
-   
-    
-        elif GetFileName == '03_AMP_Reg_60_30_80_S3.txt':
-            with open(InputFile, 'r', newline = '') as filereader: 
-                ReadFile_DtaFram = pd.read_csv(filereader) # Get Data and PutIn DataFrame format
-                DataArray = np.array(ReadFile_DtaFram) # DataFrame format turn to Array format
-                DtaArray = list(map(int, DataArray)) # list, String to Value
-                DtaArray = np.array(DtaArray) # List turn to Array 
-                
-                DtaAmp_03_AMP_Reg_60_30_80_S3 = DtaArray[0::2] # Divide Amp
-                DtaMMHg_03_AMP_Reg_60_30_80_S3 = DtaArray[1::2] # Divide mmHg
-                
-                
-        elif GetFileName == '04_AMP_Reg_60_30_80_S4.txt':
-            with open(InputFile, 'r', newline = '') as filereader: 
-                ReadFile_DtaFram = pd.read_csv(filereader) # Get Data and PutIn DataFrame format
-                DataArray = np.array(ReadFile_DtaFram) # DataFrame format turn to Array format
-                DtaArray = list(map(int, DataArray)) # list, String to Value
-                DtaArray = np.array(DtaArray) # List turn to Array 
-                
-                DtaAmp_04_AMP_Reg_60_30_80_S4 = DtaArray[0::2] # Divide Amp
-                DtaMMHg_04_AMP_Reg_60_30_80_S4 = DtaArray[1::2] # Divide mmHg
-   
-    
-        elif GetFileName == '05_AMP_Reg_60_30_80_S5.txt':
-            with open(InputFile, 'r', newline = '') as filereader: 
-                ReadFile_DtaFram = pd.read_csv(filereader) # Get Data and PutIn DataFrame format
-                DataArray = np.array(ReadFile_DtaFram) # DataFrame format turn to Array format
-                DtaArray = list(map(int, DataArray)) # list, String to Value
-                DtaArray = np.array(DtaArray) # List turn to Array 
-                
-                DtaAmp_05_AMP_Reg_60_30_80_S5 = DtaArray[0::2] # Divide Amp
-                DtaMMHg_05_AMP_Reg_60_30_80_S5 = DtaArray[1::2] # Divide mmHg
-                
-        elif GetFileName == '06_AMP_Reg_80_50_80_S1.txt':
-            with open(InputFile, 'r', newline = '') as filereader: 
-                ReadFile_DtaFram = pd.read_csv(filereader) # Get Data and PutIn DataFrame format
-                DataArray = np.array(ReadFile_DtaFram) # DataFrame format turn to Array format
-                DtaArray = list(map(int, DataArray)) # list, String to Value
-                DtaArray = np.array(DtaArray) # List turn to Array 
-                
-                DtaAmp_06_AMP_Reg_80_50_80_S1 = DtaArray[0::2] # Divide Amp
-                DtaMMHg_06_AMP_Reg_80_50_80_S1 = DtaArray[1::2] # Divide mmHg
-   
-    
-        elif GetFileName == '07_AMP_Reg_80_50_80_S2.txt':
-            with open(InputFile, 'r', newline = '') as filereader: 
-                ReadFile_DtaFram = pd.read_csv(filereader) # Get Data and PutIn DataFrame format
-                DataArray = np.array(ReadFile_DtaFram) # DataFrame format turn to Array format
-                DtaArray = list(map(int, DataArray)) # list, String to Value
-                DtaArray = np.array(DtaArray) # List turn to Array 
-                
-                DtaAmp_07_AMP_Reg_80_50_80_S2 = DtaArray[0::2] # Divide Amp
-                DtaMMHg_07_AMP_Reg_80_50_80_S2 = DtaArray[1::2] # Divide mmHg
-                
-                
-        elif GetFileName == '08_AMP_Reg_80_50_80_S3.txt':
-            with open(InputFile, 'r', newline = '') as filereader: 
-                ReadFile_DtaFram = pd.read_csv(filereader) # Get Data and PutIn DataFrame format
-                DataArray = np.array(ReadFile_DtaFram) # DataFrame format turn to Array format
-                DtaArray = list(map(int, DataArray)) # list, String to Value
-                DtaArray = np.array(DtaArray) # List turn to Array 
-                
-                DtaAmp_08_AMP_Reg_80_50_80_S3 = DtaArray[0::2] # Divide Amp
-                DtaMMHg_08_AMP_Reg_80_50_80_S3 = DtaArray[1::2] # Divide mmHg
-   
-    
-        elif GetFileName == '09_AMP_Reg_80_50_80_S4.txt':
-            with open(InputFile, 'r', newline = '') as filereader: 
-                ReadFile_DtaFram = pd.read_csv(filereader) # Get Data and PutIn DataFrame format
-                DataArray = np.array(ReadFile_DtaFram) # DataFrame format turn to Array format
-                DtaArray = list(map(int, DataArray)) # list, String to Value
-                DtaArray = np.array(DtaArray) # List turn to Array 
-                
-                DtaAmp_09_AMP_Reg_80_50_80_S4 = DtaArray[0::2] # Divide Amp
-                DtaMMHg_09_AMP_Reg_80_50_80_S4 = DtaArray[1::2] # Divide mmHg
-                
-                
-        elif GetFileName == '10_AMP_Reg_80_50_80_S5.txt':
-            with open(InputFile, 'r', newline = '') as filereader: 
-                ReadFile_DtaFram = pd.read_csv(filereader) # Get Data and PutIn DataFrame format
-                DataArray = np.array(ReadFile_DtaFram) # DataFrame format turn to Array format
-                DtaArray = list(map(int, DataArray)) # list, String to Value
-                DtaArray = np.array(DtaArray) # List turn to Array 
-                
-                DtaAmp_10_AMP_Reg_80_50_80_S5 = DtaArray[0::2] # Divide Amp
-                DtaMMHg_10_AMP_Reg_80_50_80_S5 = DtaArray[1::2] # Divide mmHg
-                
-        elif GetFileName == '11_AMP_Reg_100_65_80_S1.txt':
-            with open(InputFile, 'r', newline = '') as filereader: 
-                ReadFile_DtaFram = pd.read_csv(filereader) # Get Data and PutIn DataFrame format
-                DataArray = np.array(ReadFile_DtaFram) # DataFrame format turn to Array format
-                DtaArray = list(map(int, DataArray)) # list, String to Value
-                DtaArray = np.array(DtaArray) # List turn to Array 
-                
-                DtaAmp_11_AMP_Reg_100_65_80_S1 = DtaArray[0::2] # Divide Amp
-                DtaMMHg_11_AMP_Reg_100_65_80_S1 = DtaArray[1::2] # Divide mmHg
-   
-    
-        elif GetFileName == '12_AMP_Reg_100_65_80_S2.txt':
-            with open(InputFile, 'r', newline = '') as filereader: 
-                ReadFile_DtaFram = pd.read_csv(filereader) # Get Data and PutIn DataFrame format
-                DataArray = np.array(ReadFile_DtaFram) # DataFrame format turn to Array format
-                DtaArray = list(map(int, DataArray)) # list, String to Value
-                DtaArray = np.array(DtaArray) # List turn to Array 
-                
-                DtaAmp_12_AMP_Reg_100_65_80_S2 = DtaArray[0::2] # Divide Amp
-                DtaMMHg_12_AMP_Reg_100_65_80_S2 = DtaArray[1::2] # Divide mmHg
-                
-                
-        elif GetFileName == '13_AMP_Reg_100_65_80_S3.txt':
-            with open(InputFile, 'r', newline = '') as filereader: 
-                ReadFile_DtaFram = pd.read_csv(filereader) # Get Data and PutIn DataFrame format
-                DataArray = np.array(ReadFile_DtaFram) # DataFrame format turn to Array format
-                DtaArray = list(map(int, DataArray)) # list, String to Value
-                DtaArray = np.array(DtaArray) # List turn to Array 
-                
-                DtaAmp_13_AMP_Reg_100_65_80_S3 = DtaArray[0::2] # Divide Amp
-                DtaMMHg_13_AMP_Reg_100_65_80_S3 = DtaArray[1::2] # Divide mmHg
-   
-    
-        elif GetFileName == '14_AMP_Reg_100_65_80_S4.txt':
-            with open(InputFile, 'r', newline = '') as filereader: 
-                ReadFile_DtaFram = pd.read_csv(filereader) # Get Data and PutIn DataFrame format
-                DataArray = np.array(ReadFile_DtaFram) # DataFrame format turn to Array format
-                DtaArray = list(map(int, DataArray)) # list, String to Value
-                DtaArray = np.array(DtaArray) # List turn to Array 
-                
-                DtaAmp_14_AMP_Reg_100_65_80_S4 = DtaArray[0::2] # Divide Amp
-                DtaMMHg_14_AMP_Reg_100_65_80_S4 = DtaArray[1::2] # Divide mmHg
-                
-                
-        elif GetFileName == '15_AMP_Reg_100_65_80_S5.txt':
-            with open(InputFile, 'r', newline = '') as filereader: 
-                ReadFile_DtaFram = pd.read_csv(filereader) # Get Data and PutIn DataFrame format
-                DataArray = np.array(ReadFile_DtaFram) # DataFrame format turn to Array format
-                DtaArray = list(map(int, DataArray)) # list, String to Value
-                DtaArray = np.array(DtaArray) # List turn to Array 
-                
-                DtaAmp_15_AMP_Reg_100_65_80_S5 = DtaArray[0::2] # Divide Amp
-                DtaMMHg_15_AMP_Reg_100_65_80_S5 = DtaArray[1::2] # Divide mmHg
-                
-        elif GetFileName == '16_AMP_Reg_120_80_80_S1.txt':
-            with open(InputFile, 'r', newline = '') as filereader: 
-                ReadFile_DtaFram = pd.read_csv(filereader) # Get Data and PutIn DataFrame format
-                DataArray = np.array(ReadFile_DtaFram) # DataFrame format turn to Array format
-                DtaArray = list(map(int, DataArray)) # list, String to Value
-                DtaArray = np.array(DtaArray) # List turn to Array 
-                
-                DtaAmp_16_AMP_Reg_120_80_80_S1 = DtaArray[0::2] # Divide Amp
-                DtaMMHg_16_AMP_Reg_120_80_80_S1 = DtaArray[1::2] # Divide mmHg
-   
-    
-        elif GetFileName == '17_AMP_Reg_120_80_80_S2.txt':
-            with open(InputFile, 'r', newline = '') as filereader: 
-                ReadFile_DtaFram = pd.read_csv(filereader) # Get Data and PutIn DataFrame format
-                DataArray = np.array(ReadFile_DtaFram) # DataFrame format turn to Array format
-                DtaArray = list(map(int, DataArray)) # list, String to Value
-                DtaArray = np.array(DtaArray) # List turn to Array 
-                
-                DtaAmp_17_AMP_Reg_120_80_80_S2 = DtaArray[0::2] # Divide Amp
-                DtaMMHg_17_AMP_Reg_120_80_80_S2 = DtaArray[1::2] # Divide mmHg
-                
-                
-        elif GetFileName == '18_AMP_Reg_120_80_80_S3.txt':
-            with open(InputFile, 'r', newline = '') as filereader: 
-                ReadFile_DtaFram = pd.read_csv(filereader) # Get Data and PutIn DataFrame format
-                DataArray = np.array(ReadFile_DtaFram) # DataFrame format turn to Array format
-                DtaArray = list(map(int, DataArray)) # list, String to Value
-                DtaArray = np.array(DtaArray) # List turn to Array 
-                
-                DtaAmp_18_AMP_Reg_120_80_80_S3 = DtaArray[0::2] # Divide Amp
-                DtaMMHg_18_AMP_Reg_120_80_80_S3 = DtaArray[1::2] # Divide mmHg
-   
-    
-        elif GetFileName == '19_AMP_Reg_120_80_80_S4.txt':
-            with open(InputFile, 'r', newline = '') as filereader: 
-                ReadFile_DtaFram = pd.read_csv(filereader) # Get Data and PutIn DataFrame format
-                DataArray = np.array(ReadFile_DtaFram) # DataFrame format turn to Array format
-                DtaArray = list(map(int, DataArray)) # list, String to Value
-                DtaArray = np.array(DtaArray) # List turn to Array 
-                
-                DtaAmp_19_AMP_Reg_120_80_80_S4 = DtaArray[0::2] # Divide Amp
-                DtaMMHg_19_AMP_Reg_120_80_80_S4 = DtaArray[1::2] # Divide mmHg
-                
-                
-        elif GetFileName == '20_AMP_Reg_120_80_80_S5.txt':
-            with open(InputFile, 'r', newline = '') as filereader: 
-                ReadFile_DtaFram = pd.read_csv(filereader) # Get Data and PutIn DataFrame format
-                DataArray = np.array(ReadFile_DtaFram) # DataFrame format turn to Array format
-                DtaArray = list(map(int, DataArray)) # list, String to Value
-                DtaArray = np.array(DtaArray) # List turn to Array 
-                
-                DtaAmp_20_AMP_Reg_120_80_80_S5 = DtaArray[0::2] # Divide Amp
-                DtaMMHg_20_AMP_Reg_120_80_80_S5 = DtaArray[1::2] # Divide mmHg
-                
-        elif GetFileName == '21_AMP_Reg_150_100_80_S1.txt':
-            with open(InputFile, 'r', newline = '') as filereader: 
-                ReadFile_DtaFram = pd.read_csv(filereader) # Get Data and PutIn DataFrame format
-                DataArray = np.array(ReadFile_DtaFram) # DataFrame format turn to Array format
-                DtaArray = list(map(int, DataArray)) # list, String to Value
-                DtaArray = np.array(DtaArray) # List turn to Array 
-                
-                DtaAmp_21_AMP_Reg_100_65_80_S1 = DtaArray[0::2] # Divide Amp
-                DtaMMHg_21_AMP_Reg_100_65_80_S1 = DtaArray[1::2] # Divide mmHg
-   
-    
-        elif GetFileName == '22_AMP_Reg_150_100_80_S2.txt':
-            with open(InputFile, 'r', newline = '') as filereader: 
-                ReadFile_DtaFram = pd.read_csv(filereader) # Get Data and PutIn DataFrame format
-                DataArray = np.array(ReadFile_DtaFram) # DataFrame format turn to Array format
-                DtaArray = list(map(int, DataArray)) # list, String to Value
-                DtaArray = np.array(DtaArray) # List turn to Array 
-                
-                DtaAmp_22_AMP_Reg_150_100_80_S2 = DtaArray[0::2] # Divide Amp
-                DtaMMHg_22_AMP_Reg_150_100_80_S2 = DtaArray[1::2] # Divide mmHg
-                
-                
-        elif GetFileName == '23_AMP_Reg_150_100_80_S3.txt':
-            with open(InputFile, 'r', newline = '') as filereader: 
-                ReadFile_DtaFram = pd.read_csv(filereader) # Get Data and PutIn DataFrame format
-                DataArray = np.array(ReadFile_DtaFram) # DataFrame format turn to Array format
-                DtaArray = list(map(int, DataArray)) # list, String to Value
-                DtaArray = np.array(DtaArray) # List turn to Array 
-                
-                DtaAmp_23_AMP_Reg_150_100_80_S3 = DtaArray[0::2] # Divide Amp
-                DtaMMHg_23_AMP_Reg_150_100_80_S3 = DtaArray[1::2] # Divide mmHg
-   
-    
-        elif GetFileName == '24_AMP_Reg_150_100_80_S4.txt':
-            with open(InputFile, 'r', newline = '') as filereader: 
-                ReadFile_DtaFram = pd.read_csv(filereader) # Get Data and PutIn DataFrame format
-                DataArray = np.array(ReadFile_DtaFram) # DataFrame format turn to Array format
-                DtaArray = list(map(int, DataArray)) # list, String to Value
-                DtaArray = np.array(DtaArray) # List turn to Array 
-                
-                DtaAmp_24_AMP_Reg_150_100_80_S4 = DtaArray[0::2] # Divide Amp
-                DtaMMHg_24_AMP_Reg_150_100_80_S4 = DtaArray[1::2] # Divide mmHg
-                
-                
-        elif GetFileName == '25_AMP_Reg_150_100_80_S5.txt':
-            with open(InputFile, 'r', newline = '') as filereader: 
-                ReadFile_DtaFram = pd.read_csv(filereader) # Get Data and PutIn DataFrame format
-                DataArray = np.array(ReadFile_DtaFram) # DataFrame format turn to Array format
-                DtaArray = list(map(int, DataArray)) # list, String to Value
-                DtaArray = np.array(DtaArray) # List turn to Array 
-                
-                DtaAmp_25_AMP_Reg_150_100_80_S5 = DtaArray[0::2] # Divide Amp
-                DtaMMHg_25_AMP_Reg_150_100_80_S5 = DtaArray[1::2] # Divide mmHg
-    
-    
-        elif GetFileName == '26_AMP_Reg_200_150_80_S1.txt':
-            with open(InputFile, 'r', newline = '') as filereader: 
-                ReadFile_DtaFram = pd.read_csv(filereader) # Get Data and PutIn DataFrame format
-                DataArray = np.array(ReadFile_DtaFram) # DataFrame format turn to Array format
-                DtaArray = list(map(int, DataArray)) # list, String to Value
-                DtaArray = np.array(DtaArray) # List turn to Array 
-                
-                DtaAmp_26_AMP_Reg_200_150_80_S1 = DtaArray[0::2] # Divide Amp
-                DtaMMHg_26_AMP_Reg_200_150_80_S1 = DtaArray[1::2] # Divide mmHg
-                
-                
-        elif GetFileName == '27_AMP_Reg_200_150_80_S2.txt':
-            with open(InputFile, 'r', newline = '') as filereader: 
-                ReadFile_DtaFram = pd.read_csv(filereader) # Get Data and PutIn DataFrame format
-                DataArray = np.array(ReadFile_DtaFram) # DataFrame format turn to Array format
-                DtaArray = list(map(int, DataArray)) # list, String to Value
-                DtaArray = np.array(DtaArray) # List turn to Array 
-                
-                DtaAmp_27_AMP_Reg_200_150_80_S2 = DtaArray[0::2] # Divide Amp
-                DtaMMHg_27_AMP_Reg_200_150_80_S2 = DtaArray[1::2] # Divide mmHg
-                
-                
-        elif GetFileName == '28_AMP_Reg_200_150_80_S3.txt':
-            with open(InputFile, 'r', newline = '') as filereader: 
-                ReadFile_DtaFram = pd.read_csv(filereader) # Get Data and PutIn DataFrame format
-                DataArray = np.array(ReadFile_DtaFram) # DataFrame format turn to Array format
-                DtaArray = list(map(int, DataArray)) # list, String to Value
-                DtaArray = np.array(DtaArray) # List turn to Array 
-                
-                DtaAmp_28_AMP_Reg_200_150_80_S3 = DtaArray[0::2] # Divide Amp
-                DtaMMHg_28_AMP_Reg_200_150_80_S3 = DtaArray[1::2] # Divide mmHg
-                
-        elif GetFileName == '29_AMP_Reg_200_150_80_S4.txt':
-            with open(InputFile, 'r', newline = '') as filereader: 
-                ReadFile_DtaFram = pd.read_csv(filereader) # Get Data and PutIn DataFrame format
-                DataArray = np.array(ReadFile_DtaFram) # DataFrame format turn to Array format
-                DtaArray = list(map(int, DataArray)) # list, String to Value
-                DtaArray = np.array(DtaArray) # List turn to Array 
-                
-                DtaAmp_29_AMP_Reg_200_150_80_S4 = DtaArray[0::2] # Divide Amp
-                DtaMMHg_29_AMP_Reg_200_150_80_S4 = DtaArray[1::2] # Divide mmHg
-   
-    
-        elif GetFileName == '30_AMP_Reg_200_150_80_S5.txt':
-            with open(InputFile, 'r', newline = '') as filereader: 
-                ReadFile_DtaFram = pd.read_csv(filereader) # Get Data and PutIn DataFrame format
-                DataArray = np.array(ReadFile_DtaFram) # DataFrame format turn to Array format
-                DtaArray = list(map(int, DataArray)) # list, String to Value
-                DtaArray = np.array(DtaArray) # List turn to Array 
-                
-                DtaAmp_30_AMP_Reg_200_150_80_S5 = DtaArray[0::2] # Divide Amp
-                DtaMMHg_30_AMP_Reg_200_150_80_S5 = DtaArray[1::2] # Divide mmHg
-                
-                
-        elif GetFileName == '31_AMP_Reg_255_195_80_S1.txt':
-            with open(InputFile, 'r', newline = '') as filereader: 
-                ReadFile_DtaFram = pd.read_csv(filereader) # Get Data and PutIn DataFrame format
-                DataArray = np.array(ReadFile_DtaFram) # DataFrame format turn to Array format
-                DtaArray = list(map(int, DataArray)) # list, String to Value
-                DtaArray = np.array(DtaArray) # List turn to Array 
-                
-                DtaAmp_31_AMP_Reg_255_195_80_S1 = DtaArray[0::2] # Divide Amp
-                DtaMMHg_31_AMP_Reg_255_195_80_S1 = DtaArray[1::2] # Divide mmHg
-   
-    
-        elif GetFileName == '32_AMP_Reg_255_195_80_S2.txt':
-            with open(InputFile, 'r', newline = '') as filereader: 
-                ReadFile_DtaFram = pd.read_csv(filereader) # Get Data and PutIn DataFrame format
-                DataArray = np.array(ReadFile_DtaFram) # DataFrame format turn to Array format
-                DtaArray = list(map(int, DataArray)) # list, String to Value
-                DtaArray = np.array(DtaArray) # List turn to Array 
-                
-                DtaAmp_32_AMP_Reg_255_195_80_S2 = DtaArray[0::2] # Divide Amp
-                DtaMMHg_32_AMP_Reg_255_195_80_S2 = DtaArray[1::2] # Divide mmHg
-                
-                
-        elif GetFileName == '33_AMP_Reg_255_195_80_S3.txt':
-            with open(InputFile, 'r', newline = '') as filereader: 
-                ReadFile_DtaFram = pd.read_csv(filereader) # Get Data and PutIn DataFrame format
-                DataArray = np.array(ReadFile_DtaFram) # DataFrame format turn to Array format
-                DtaArray = list(map(int, DataArray)) # list, String to Value
-                DtaArray = np.array(DtaArray) # List turn to Array 
-                
-                DtaAmp_33_AMP_Reg_255_195_80_S3 = DtaArray[0::2] # Divide Amp
-                DtaMMHg_33_AMP_Reg_255_195_80_S3 = DtaArray[1::2] # Divide mmHg
-    
-    
-        elif GetFileName == '34_AMP_Reg_255_195_80_S4.txt':
-            with open(InputFile, 'r', newline = '') as filereader: 
-                ReadFile_DtaFram = pd.read_csv(filereader) # Get Data and PutIn DataFrame format
-                DataArray = np.array(ReadFile_DtaFram) # DataFrame format turn to Array format
-                DtaArray = list(map(int, DataArray)) # list, String to Value
-                DtaArray = np.array(DtaArray) # List turn to Array 
-                
-                DtaAmp_34_AMP_Reg_255_195_80_S4 = DtaArray[0::2] # Divide Amp
-                DtaMMHg_34_AMP_Reg_255_195_80_S4 = DtaArray[1::2] # Divide mmHg     
-                
-                
-        elif GetFileName == '35_AMP_Reg_255_195_80_S5.txt':
-            with open(InputFile, 'r', newline = '') as filereader: 
-                ReadFile_DtaFram = pd.read_csv(filereader) # Get Data and PutIn DataFrame format
-                DataArray = np.array(ReadFile_DtaFram) # DataFrame format turn to Array format
-                DtaArray = list(map(int, DataArray)) # list, String to Value
-                DtaArray = np.array(DtaArray) # List turn to Array 
-                
-                DtaAmp_35_AMP_Reg_255_195_80_S5 = DtaArray[0::2] # Divide Amp
-                DtaMMHg_35_AMP_Reg_255_195_80_S5 = DtaArray[1::2] # Divide mmHg           
-                
-
-                    
+ 
         """Get All File Data"""    
         with open(InputFile, 'r', newline = '') as filereader:           
             for row in filereader:   
-                 #line = line.strip().split()
-                row = row.strip()
-                GetAllFileDta_List.append(row.split(','))
-                #print(GetAllTxtFileList)
+                row = row.strip().split('\r\n') # Remove Blank then Remove \r\n
+                GetAllFileDta_List.append(row)
                 
+                
+#print(GetAllFileDta_List[32])
+                
+"""========== Arrange All File Data  ============================="""                  
+FileLength = len(GetAllFileDta_List)  
+RawDtaLen = 0
+
+# 有幾個END = 幾組RawData，計算END數量 來決定 生成幾組 [] list
+for i in range(0,FileLength,1):    
+    if GetAllFileDta_List[i] == ['END']:       
+       RawDtaLen = RawDtaLen +1
+    
+# 生成[] list分割儲存RawData
+RawData_List=[]
+RawData_List = [ []* 1 for i in range(RawDtaLen) ] # http://blog.hhjh.tn.edu.tw/biosomeday/?p=655
+GroupCnt = 0  
+              
+# 切割數據
+for i in range(0,FileLength,1):
+    
+    if GetAllFileDta_List[i] == ['END']:       
+       GroupCnt = GroupCnt +1
+    else:
+       RawData_List[GroupCnt].append(GetAllFileDta_List[i])
+
+
+#print(RawData_List[0][1:])  
+"""========== Group Raw Data by same Blood Pressure=============================""" 
+# regex = \d{1,}_AMP_Reg_\d{1,}_\d{1,}_\d{1,}\D{0,}\d{1,}
+
+#a= str(RawData_List[0][0]).strip('[]')
+#aa ='_AMP'.join(RawData_List[0][0])
+#b ='_AMP'
+#c=aa+b
+#
+#
+#c1='a'
+#c2='b'
+#cc=c1+c2
+#print("\n c=",c) # AMP
+"""========== Separate Raw Data -> Amp + mmHg =============================""" 
  
+FileLength = len(RawData_List) 
+
+# 生成[] list
+SeparateRawData_List=[]
+SeparateRawData_List = [ []* 1 for i in range(RawDtaLen*2) ] # http://blog.hhjh.tn.edu.tw/biosomeday/?p=655
+GroupCnt = 0  
+
+#print(RawData_List[0][1::2]) # AMP
+#print(RawData_List[0][2::2]) # mmHg 
+
+ 
+# 切割數據
+for i in range(0,FileLength,1):
+
+       # Amp
+       SeparateRawData_List[GroupCnt].append(RawData_List[i][0])
+       SeparateRawData_List[GroupCnt].append(RawData_List[i][1::2])
+       GroupCnt = GroupCnt +1
+       
+       # mmHG
+       SeparateRawData_List[GroupCnt].append(RawData_List[i][0])
+       SeparateRawData_List[GroupCnt].append(RawData_List[i][2::2])
+       GroupCnt = GroupCnt +1
+       
+       
+#print(SeparateRawData_List[2][:])       
 """========== Process Txt File Data  ============================="""                 
-#print(type(DtaAmp_01_AMP_Reg_60_30_80_S1)) # 查變數格式
-#BP_60_30_80 = np.zeros(11).reshape(1,11)
+
+
+
+# to np
+# calculate
+
 
 """=================================  60 / 30 / 80  ============================"""
 SetSystolic = 60
 SetDistolic = 30
 
+print(SeparateRawData_List[0][1:])    # END = SeparateRawData_List[9][0] 
 
-ArrayAmp = DtaAmp_01_AMP_Reg_60_30_80_S1
-ArraymmHg = DtaMMHg_01_AMP_Reg_60_30_80_S1
+#for i in range(0,9,1):
+ArrayAmp = np.array(*SeparateRawData_List[0][1:]) # 加*  少一個[] 需詳查
+ArrayAmp = list(map(int, ArrayAmp))
+ArrayAmp = np.array(ArrayAmp)
 
-SystolicResult1 = SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult1 = DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
-
-
-ArrayAmp = DtaAmp_02_AMP_Reg_60_30_80_S2
-ArraymmHg = DtaMMHg_02_AMP_Reg_60_30_80_S2
-
-SystolicResult2 = SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult2 = DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
-
-ArrayAmp = DtaAmp_03_AMP_Reg_60_30_80_S3
-ArraymmHg = DtaMMHg_03_AMP_Reg_60_30_80_S3
-
-SystolicResult3 = SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult3 = DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
-
-ArrayAmp = DtaAmp_04_AMP_Reg_60_30_80_S4
-ArraymmHg = DtaMMHg_04_AMP_Reg_60_30_80_S4
-
-SystolicResult4 = SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult4 = DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
-
-ArrayAmp = DtaAmp_05_AMP_Reg_60_30_80_S5
-ArraymmHg = DtaMMHg_05_AMP_Reg_60_30_80_S5
-
-SystolicResult5 = SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult5 = DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
+ArraymmHg = np.array(*SeparateRawData_List[1][1:])
+ArraymmHg = list(map(int, ArraymmHg))
+ArraymmHg = np.array(ArraymmHg)
 
 
-# Vertical Combine Result    
-Systolic_60_30_80_CombineResultVertical = np.vstack((SystolicResult1, SystolicResult2, SystolicResult3, SystolicResult4, SystolicResult5))    # vertical stack
-Distolic_60_30_80_CombineResultVertical = np.vstack((DistolicResult1, DistolicResult2, DistolicResult3, DistolicResult4, DistolicResult5))    # vertical stack
+print("here",np.max(ArrayAmp))
+
+SystolicResult = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
+DistolicResult = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
+
+
+
+# Combine Result    
+Systolic_60_30_80_CombineResultVertical = np.vstack(Systolic_60_30_80_CombineResultVertical, SystolicResult)    # vertical stack
+Distolic_60_30_80_CombineResultVertical = np.vstack(DistolicResult1)    # vertical stack
+
+
 #print(Systolic_60_30_80_CombineResultVertical)    
 
 
@@ -502,33 +179,33 @@ SetDistolic = 50
 ArrayAmp = DtaAmp_06_AMP_Reg_80_50_80_S1
 ArraymmHg = DtaMMHg_06_AMP_Reg_80_50_80_S1
 
-SystolicResult1 = SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult1 = DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
+SystolicResult1 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
+DistolicResult1 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
 
 
 ArrayAmp = DtaAmp_07_AMP_Reg_80_50_80_S2
 ArraymmHg = DtaMMHg_07_AMP_Reg_80_50_80_S2
 
-SystolicResult2 = SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult2 = DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
+SystolicResult2 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
+DistolicResult2 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
 
 ArrayAmp = DtaAmp_08_AMP_Reg_80_50_80_S3
 ArraymmHg = DtaMMHg_08_AMP_Reg_80_50_80_S3
 
-SystolicResult3 = SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult3 = DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
+SystolicResult3 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
+DistolicResult3 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
 
 ArrayAmp = DtaAmp_09_AMP_Reg_80_50_80_S4
 ArraymmHg = DtaMMHg_09_AMP_Reg_80_50_80_S4
 
-SystolicResult4 = SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult4 = DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
+SystolicResult4 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
+DistolicResult4 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
 
 ArrayAmp = DtaAmp_10_AMP_Reg_80_50_80_S5
 ArraymmHg = DtaMMHg_10_AMP_Reg_80_50_80_S5
 
-SystolicResult5 = SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult5 = DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
+SystolicResult5 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
+DistolicResult5 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
 
 
 # Vertical Combine Result    
@@ -544,36 +221,35 @@ SetDistolic = 65
 ArrayAmp = DtaAmp_11_AMP_Reg_100_65_80_S1
 ArraymmHg = DtaMMHg_11_AMP_Reg_100_65_80_S1
 
-SystolicResult1 = SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult1 = DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
+SystolicResult1 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
+DistolicResult1 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
 
 
 ArrayAmp = DtaAmp_12_AMP_Reg_100_65_80_S2
 ArraymmHg = DtaMMHg_12_AMP_Reg_100_65_80_S2
 
-SystolicResult2 = SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult2 = DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
+SystolicResult2 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
+DistolicResult2 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
 
 ArrayAmp = DtaAmp_13_AMP_Reg_100_65_80_S3
 ArraymmHg = DtaMMHg_13_AMP_Reg_100_65_80_S3
 
-SystolicResult3 = SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult3 = DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
+SystolicResult3 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
+DistolicResult3 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
 
 ArrayAmp = DtaAmp_14_AMP_Reg_100_65_80_S4
 ArraymmHg = DtaMMHg_14_AMP_Reg_100_65_80_S4
 
-SystolicResult4 = SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult4 = DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
+SystolicResult4 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
+DistolicResult4 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
 
-print("\n DtaAmp_14_AMP_Reg_100_65_80_S4 \n", ArrayAmp)
-print("\n DtaMMHg_14_AMP_Reg_100_65_80_S4 \n", ArraymmHg)
+
 
 ArrayAmp = DtaAmp_15_AMP_Reg_100_65_80_S5
 ArraymmHg = DtaMMHg_15_AMP_Reg_100_65_80_S5
 
-SystolicResult5 = SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult5 = DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
+SystolicResult5 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
+DistolicResult5 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
 
 
 # Vertical Combine Result    
@@ -589,33 +265,33 @@ SetDistolic = 80
 ArrayAmp = DtaAmp_16_AMP_Reg_120_80_80_S1
 ArraymmHg = DtaMMHg_16_AMP_Reg_120_80_80_S1
 
-SystolicResult1 = SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult1 = DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
+SystolicResult1 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
+DistolicResult1 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
 
 
 ArrayAmp = DtaAmp_17_AMP_Reg_120_80_80_S2
 ArraymmHg = DtaMMHg_17_AMP_Reg_120_80_80_S2
 
-SystolicResult2 = SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult2 = DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
+SystolicResult2 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
+DistolicResult2 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
 
 ArrayAmp = DtaAmp_18_AMP_Reg_120_80_80_S3
 ArraymmHg = DtaMMHg_18_AMP_Reg_120_80_80_S3
 
-SystolicResult3 = SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult3 = DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
+SystolicResult3 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
+DistolicResult3 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
 
 ArrayAmp = DtaAmp_19_AMP_Reg_120_80_80_S4
 ArraymmHg = DtaMMHg_19_AMP_Reg_120_80_80_S4
 
-SystolicResult4 = SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult4 = DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
+SystolicResult4 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
+DistolicResult4 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
 
 ArrayAmp = DtaAmp_20_AMP_Reg_120_80_80_S5
 ArraymmHg = DtaMMHg_20_AMP_Reg_120_80_80_S5
 
-SystolicResult5 = SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult5 = DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
+SystolicResult5 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
+DistolicResult5 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
 
 
 # Vertical Combine Result    
@@ -632,33 +308,33 @@ SetDistolic = 100
 ArrayAmp = DtaAmp_21_AMP_Reg_100_65_80_S1
 ArraymmHg = DtaMMHg_21_AMP_Reg_100_65_80_S1
 
-SystolicResult1 = SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult1 = DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
+SystolicResult1 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
+DistolicResult1 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
 
 
 ArrayAmp = DtaAmp_22_AMP_Reg_150_100_80_S2
 ArraymmHg = DtaMMHg_22_AMP_Reg_150_100_80_S2
 
-SystolicResult2 = SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult2 = DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
+SystolicResult2 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
+DistolicResult2 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
 
 ArrayAmp = DtaAmp_23_AMP_Reg_150_100_80_S3
 ArraymmHg = DtaMMHg_23_AMP_Reg_150_100_80_S3
 
-SystolicResult3 = SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult3 = DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
+SystolicResult3 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
+DistolicResult3 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
 
 ArrayAmp = DtaAmp_24_AMP_Reg_150_100_80_S4
 ArraymmHg = DtaMMHg_24_AMP_Reg_150_100_80_S4
 
-SystolicResult4 = SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult4 = DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
+SystolicResult4 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
+DistolicResult4 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
 
 ArrayAmp = DtaAmp_25_AMP_Reg_150_100_80_S5
 ArraymmHg = DtaMMHg_25_AMP_Reg_150_100_80_S5
 
-SystolicResult5 = SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult5 = DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
+SystolicResult5 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
+DistolicResult5 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
 
 
 # Vertical Combine Result    
@@ -675,33 +351,33 @@ SetDistolic = 150
 ArrayAmp = DtaAmp_26_AMP_Reg_200_150_80_S1
 ArraymmHg = DtaMMHg_26_AMP_Reg_200_150_80_S1
 
-SystolicResult1 = SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult1 = DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
+SystolicResult1 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
+DistolicResult1 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
 
 
 ArrayAmp = DtaAmp_27_AMP_Reg_200_150_80_S2
 ArraymmHg = DtaMMHg_27_AMP_Reg_200_150_80_S2
 
-SystolicResult2 = SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult2 = DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
+SystolicResult2 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
+DistolicResult2 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
 
 ArrayAmp = DtaAmp_28_AMP_Reg_200_150_80_S3
 ArraymmHg = DtaMMHg_28_AMP_Reg_200_150_80_S3
 
-SystolicResult3 = SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult3 = DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
+SystolicResult3 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
+DistolicResult3 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
 
 ArrayAmp = DtaAmp_29_AMP_Reg_200_150_80_S4
 ArraymmHg = DtaMMHg_29_AMP_Reg_200_150_80_S4
 
-SystolicResult4 = SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult4 = DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
+SystolicResult4 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
+DistolicResult4 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
 
 ArrayAmp = DtaAmp_30_AMP_Reg_200_150_80_S5
 ArraymmHg = DtaMMHg_30_AMP_Reg_200_150_80_S5
 
-SystolicResult5 = SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult5 = DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
+SystolicResult5 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
+DistolicResult5 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
 
 
 # Vertical Combine Result    
@@ -719,33 +395,33 @@ ArrayAmp = DtaAmp_31_AMP_Reg_255_195_80_S1
 ArraymmHg = DtaMMHg_31_AMP_Reg_255_195_80_S1
 
 
-SystolicResult1 = SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult1 = DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
+SystolicResult1 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
+DistolicResult1 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
 
 
 ArrayAmp = DtaAmp_32_AMP_Reg_255_195_80_S2
 ArraymmHg = DtaMMHg_32_AMP_Reg_255_195_80_S2
 
-SystolicResult2 = SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult2 = DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
+SystolicResult2 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
+DistolicResult2 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
 
 ArrayAmp = DtaAmp_33_AMP_Reg_255_195_80_S3
 ArraymmHg = DtaMMHg_33_AMP_Reg_255_195_80_S3
 
-SystolicResult3 = SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult3 = DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
+SystolicResult3 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
+DistolicResult3 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
 
 ArrayAmp = DtaAmp_34_AMP_Reg_255_195_80_S4
 ArraymmHg = DtaMMHg_34_AMP_Reg_255_195_80_S4
 
-SystolicResult4 = SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult4 = DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
+SystolicResult4 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
+DistolicResult4 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
 
 ArrayAmp = DtaAmp_35_AMP_Reg_255_195_80_S5
 ArraymmHg = DtaMMHg_35_AMP_Reg_255_195_80_S5
 
-SystolicResult5 = SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult5 = DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
+SystolicResult5 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
+DistolicResult5 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
 
 
 # Vertical Combine Result    
@@ -756,7 +432,7 @@ Distolic_255_195_80_CombineResultVertical = np.vstack((DistolicResult1, Distolic
 """================================================ ALL  ==========================="""
 SystolicResult = np.vstack((Systolic_60_30_80_CombineResultVertical, Systolic_80_50_80_CombineResultVertical, Systolic_100_65_80_CombineResultVertical, Systolic_120_80_80_CombineResultVertical, Systolic_150_100_80_CombineResultVertical, Systolic_200_150_80_CombineResultVertical, Systolic_255_195_80_CombineResultVertical))    # vertical stack
 DistolicResult = np.vstack((Distolic_60_30_80_CombineResultVertical, Distolic_80_50_80_CombineResultVertical, Distolic_100_65_80_CombineResultVertical, Distolic_120_80_80_CombineResultVertical, Distolic_150_100_80_CombineResultVertical, Distolic_200_150_80_CombineResultVertical, Distolic_255_195_80_CombineResultVertical))    # vertical stack
-print("\n DistolicResult\n", DistolicResult)
+#print("\n DistolicResult\n", DistolicResult)
 
 """================================================ Systolic Statistics  ==========================="""
 
@@ -770,21 +446,21 @@ SystolicCoeff_L = SystolicResult[:,13]
 
 SystolicCoeff_All = np.hstack((SystolicCoeff_M, SystolicCoeff_H, SystolicCoeff_L))
 SystolicCoeff_All_Vertical = np.vstack((SystolicCoeff_M, SystolicCoeff_H, SystolicCoeff_L))
-print("\n SystolicCoeff_All_Vertical \n", SystolicCoeff_All_Vertical)
+#print("\n SystolicCoeff_All_Vertical \n", SystolicCoeff_All_Vertical)
 #print("\n SystolicCoeff_All \n", SystolicCoeff_M)
 
 
 SystolicCoeff_M_CntStatistic = pd.value_counts(SystolicCoeff_M) # 統計各元素出現次數
-print("\n ----- SystolicCoeff_M_CntStatistic -----\n", SystolicCoeff_M_CntStatistic)
+#print("\n ----- SystolicCoeff_M_CntStatistic -----\n", SystolicCoeff_M_CntStatistic)
 
 SystolicCoeff_H_CntStatistic = pd.value_counts(SystolicCoeff_H) # 統計各元素出現次數
-print("\n ----- SystolicCoeff_H_CntStatistic -----\n", SystolicCoeff_H_CntStatistic)
+#print("\n ----- SystolicCoeff_H_CntStatistic -----\n", SystolicCoeff_H_CntStatistic)
 
 SystolicCoeff_L_CntStatistic = pd.value_counts(SystolicCoeff_L) # 統計各元素出現次數
-print("\n ----- SystolicCoeff_L_CntStatistic -----\n", SystolicCoeff_L_CntStatistic)
+#print("\n ----- SystolicCoeff_L_CntStatistic -----\n", SystolicCoeff_L_CntStatistic)
 
 SystolicCoeff_All_CntStatistic = pd.value_counts(SystolicCoeff_All) # 統計各元素出現次數
-print("\n ----- SystolicCoeff_All_CntStatistic -----\n", SystolicCoeff_All_CntStatistic)
+#print("\n ----- SystolicCoeff_All_CntStatistic -----\n", SystolicCoeff_All_CntStatistic)
 
 
 
@@ -908,20 +584,20 @@ DistolicCoeff_L = DistolicResult[:,13]
 
 
 DistolicCoeff_All = np.hstack((DistolicCoeff_M, DistolicCoeff_H, DistolicCoeff_L))
-print("\n SystolicCoeff_All \n", DistolicCoeff_All)
+#print("\n SystolicCoeff_All \n", DistolicCoeff_All)
 
 
 DistolicCoeff_M_CntStatistic = pd.value_counts(DistolicCoeff_M) # 統計各元素出現次數
-print("\n ----- DistolicCoeff_M_CntStatistic -----\n", SystolicCoeff_M_CntStatistic)
+#print("\n ----- DistolicCoeff_M_CntStatistic -----\n", SystolicCoeff_M_CntStatistic)
 
 DistolicCoeff_H_CntStatistic = pd.value_counts(DistolicCoeff_H) # 統計各元素出現次數
-print("\n ----- DistolicCoeff_H_CntStatistic -----\n", DistolicCoeff_H_CntStatistic)
+#print("\n ----- DistolicCoeff_H_CntStatistic -----\n", DistolicCoeff_H_CntStatistic)
 
 DistolicCoeff_L_CntStatistic = pd.value_counts(DistolicCoeff_L) # 統計各元素出現次數
-print("\n ----- DistolicCoeff_L_CntStatistic -----\n", DistolicCoeff_L_CntStatistic)
+#print("\n ----- DistolicCoeff_L_CntStatistic -----\n", DistolicCoeff_L_CntStatistic)
 
 DistolicCoeff_All_CntStatistic = pd.value_counts(DistolicCoeff_All) # 統計各元素出現次數
-print("\n ----- DistolicCoeff_All_CntStatistic -----\n", DistolicCoeff_All_CntStatistic)
+#print("\n ----- DistolicCoeff_All_CntStatistic -----\n", DistolicCoeff_All_CntStatistic)
 
 
 print("\n ============== DistolicCoeff_M ==============\n")
@@ -1033,7 +709,7 @@ print("Var =", Var_DistolicCoeff_All)
 """================================================ Dump data to CSV  ==========================="""
 
 
-if SaveResult == True:
+if SaveResult2CSV == True:
     np.savetxt('Systolic.csv', SystolicResult, delimiter = ',')
     np.savetxt('Distolic.csv', SystolicResult, delimiter = ',')
 
