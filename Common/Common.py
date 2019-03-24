@@ -29,3 +29,19 @@ def GetFilePath():
        FilePath = os.getcwd() # 取得Script當前目錄
     return FilePath
 
+"""========== Filter Data In Array  ============================="""
+def FilterAryValue(DtaNPArray, FilterValue, SetPrintResult): # 濾除陣列中特定值
+    DtaNPArray = filter(lambda x: x > FilterValue, DtaNPArray)
+    DtaNPArray = np.array(list(DtaNPArray))
+
+    if SetPrintResult == True:
+        print("\n -----Filter Value in Array，濾除陣列中特定值 -----\n", DtaNPArray)
+
+    return DtaNPArray
+
+# lambda函数的形式是: lambda x: expression(x)
+# lambda允许快速定义单行的最小函数，类似与C语言中的macro，这些叫做lambda的函数，是从LISP借用来的
+#>>> g = lambda x: x * 2
+#>>> g(3)
+#6
+
