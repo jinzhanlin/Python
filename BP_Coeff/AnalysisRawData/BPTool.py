@@ -18,7 +18,7 @@ import os.path
 
 import sys;
 sys.path.append("F:\GitSystem\Python\Common")
-import CommonTool as ct
+import Common as cm
 
 
 """========== Find Max Value in array  ============================="""
@@ -40,7 +40,7 @@ def BP_Coeff(MaxAmp, BpAmp): # 算血壓係數
 """========== Calculate Target mmHg, mmHgIndex, Amp, Coeff  ============================="""
 def TargetmmHg_Coeff(AmpArray, mmHgArray, SetFindSystolic, MaxAmpValue): # 格式須為 numpy array
 
-    Systolic_mmHg = ct.FindNearest(mmHgArray,SetFindSystolic)
+    Systolic_mmHg = cm.FindNearest(mmHgArray,SetFindSystolic)
     Systolic_mmHgValue = Systolic_mmHg[0]
     Systolic_mmHgIndex = Systolic_mmHg[1]
 
@@ -160,7 +160,7 @@ def SeparateMMhg(RawData_List,i): # mmHg
     return mmHg_List
 
 """========== Systolic Process  ============================="""
-def SystolicProcess(SetSystolic, SetCntr, RawData_List, SetDtaGroupStarIndx):
+def SystolicProcess(SetSystolic, SetCntr, RawData_List, SetDtaGroupStarIndx, SetPrintResult):
 
     SystolicArray =np.zeros([SetCntr,14])
     GroupCnt = 0
@@ -188,12 +188,20 @@ def SystolicProcess(SetSystolic, SetCntr, RawData_List, SetDtaGroupStarIndx):
 
         GroupCnt = GroupCnt+1
 
+    if SetPrintResult == True:
+        print("\n")
+        print("\n ---AmpVal, AmpIndx,----")
+        print("\n ---SystolicValueM, SystolicIndexM, SystolicAmpValueM, CoeffM,----")
+        print("\n ---SystolicValueH, SystolicIndexH, SystolicAmpValueH, CoeffH,----")
+        print("\n ---SystolicValueL, SystolicIndexL, SystolicAmpValueL, CoeffL,----\n", SystolicArray)
+
+
 
     return SystolicArray
 
 
 """========== Systolic Process  ============================="""
-def DistolicProcess(SetDistolic, SetCntr, RawData_List, SetDtaGroupStarIndx):
+def DistolicProcess(SetDistolic, SetCntr, RawData_List, SetDtaGroupStarIndx, SetPrintResult):
 
     DistolicArray =np.zeros([SetCntr,14])
     GroupCnt = 0
@@ -221,8 +229,43 @@ def DistolicProcess(SetDistolic, SetCntr, RawData_List, SetDtaGroupStarIndx):
 
         GroupCnt = GroupCnt+1
 
+    if SetPrintResult == True:
+        print("\n")
+        print("\n ---AmpVal, AmpIndx,----")
+        print("\n ---DistolicValueM, DistolicIndexM, DistolicAmpValueM, CoeffM,----")
+        print("\n ---DistolicValueH, DistolicIndexH, DistolicAmpValueH, CoeffH,----")
+        print("\n ---DistolicValueL, DistolicIndexL, DistolicAmpValueL, CoeffL,----\n", DistolicArray)
+
 
     return DistolicArray
 
+"""========== Get Coeff M  ============================="""
+def GetCoeff_M(DtaNPArray, SetGetIndx, SetPrintResult):
 
+    Coeff_M = DtaNPArray[:,SetGetIndx] # SetGetIndx = 5
+
+    if SetPrintResult == True:
+        print("\n -----Coeff M，取Coeff M 數值 -----\n", Coeff_M)
+
+    return Coeff_M
+
+"""========== Get Coeff H  ============================="""
+def GetCoeff_H(DtaNPArray, SetGetIndx, SetPrintResult):
+
+    Coeff_H = DtaNPArray[:,SetGetIndx] # SetGetIndx = 9
+
+    if SetPrintResult == True:
+        print("\n -----Coeff H，取Coeff H 數值 -----\n", Coeff_H)
+
+    return Coeff_H
+
+"""========== Get Coeff L  ============================="""
+def GetCoeff_L(DtaNPArray, SetGetIndx, SetPrintResult):
+
+    Coeff_L = DtaNPArray[:,SetGetIndx] # SetGetIndx = 13
+
+    if SetPrintResult == True:
+        print("\n -----Coeff L，取Coeff L 數值 -----\n", Coeff_L)
+
+    return Coeff_L
 
