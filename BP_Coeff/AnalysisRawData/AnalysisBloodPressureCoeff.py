@@ -13,13 +13,13 @@ import glob
 import re
 import pandas as pd
 import numpy as np
-import os.path 
+import os.path
 
 import sys;
 sys.path.append("F:\GitSystem\Python\Common")
-import CommonTool as ct 
+import CommonTool as ct
 
-import BPTool as bt 
+import BPTool as bt
 
 
 
@@ -28,66 +28,81 @@ import BPTool as bt
 SaveResult2CSV = False # True False
 
 
+
+"""========== Load  ============================="""
 InputPath = ct.GetFilePath()
-    
-    
-"""========== Get Txt File Data  ============================="""    
+
+"""
+TXT Format
+
+File Name
+Data1
+Data2
+Data3
+.
+.
+.
+End
+
+"""
+
+"""========== Get Txt File Data  ============================="""
 GetFilePath_List = []   # 定义一个列表，用来存放txt文件名
-GetAllFileDta_List = []  
+GetAllFileDta_List = []
 
 
 """ 將 InputPath 路徑下 所有txt開啟並讀取 """
 for InputFile in glob.glob(os.path.join(InputPath, '*.txt')):
         GetFilePath_List.append(InputFile)
-        GetFileName = os.path.basename(InputFile) 
+        GetFileName = os.path.basename(InputFile)
 
         """ 依照txt檔名，存入個別變數  """
 #        if GetFileName == '01_AMP_Reg_60_30_80_S1.txt':
-#            with open(InputFile, 'r', newline = '') as filereader: 
+#            with open(InputFile, 'r', newline = '') as filereader:
 #                DtaFram_01_AMP_Reg_60_30_80_S1 = pd.read_csv(filereader) # Get Data and ignore first index and PutIn DataFrame format
 #                DataArray = np.array(DtaFram_01_AMP_Reg_60_30_80_S1) # DataFrame format PutIn to Array format for turn to Value
 #                Dta_01_AMP_Reg_60_30_80_S1 = list(map(int, DataArray)) # String to Value and PutIn List format
-#                Dta_01_AMP_Reg_60_30_80_S1 = np.array(Dta_01_AMP_Reg_60_30_80_S1) # List turn to Array 
-#                
+#                Dta_01_AMP_Reg_60_30_80_S1 = np.array(Dta_01_AMP_Reg_60_30_80_S1) # List turn to Array
+#
 #
 #                DtaAmp_01_AMP_Reg_60_30_80_S1 = Dta_01_AMP_Reg_60_30_80_S1[0::2] # Divide Amp
 #                DtaMMHg_01_AMP_Reg_60_30_80_S1 = Dta_01_AMP_Reg_60_30_80_S1[1::2] # Divide mmHg
 
- 
-        """Get All File Data"""    
-        with open(InputFile, 'r', newline = '') as filereader:           
-            for row in filereader:   
+
+        """Get All File Data"""
+        with open(InputFile, 'r', newline = '') as filereader:
+            for row in filereader:
                 row = row.strip().split('\r\n') # Remove Blank then Remove \r\n
                 GetAllFileDta_List.append(row)
-                
-                
+
+
 #print(GetAllFileDta_List[32])
-                
-"""========== Arrange All File Data  ============================="""                  
-FileLength = len(GetAllFileDta_List)  
+
+"""========== Arrange All File Data ，分割數據變成一行一行Data ============================="""
+FileLength = len(GetAllFileDta_List)
 RawDtaLen = 0
 
 # 有幾個END = 幾組RawData，計算END數量 來決定 生成幾組 [] list
-for i in range(0,FileLength,1):    
-    if GetAllFileDta_List[i] == ['END']:       
+for i in range(0,FileLength,1):
+    if GetAllFileDta_List[i] == ['END']:
        RawDtaLen = RawDtaLen +1
-    
+
 # 生成[] list分割儲存RawData
 RawData_List=[]
 RawData_List = [ []* 1 for i in range(RawDtaLen) ] # http://blog.hhjh.tn.edu.tw/biosomeday/?p=655
-GroupCnt = 0  
-              
+GroupCnt = 0
+
 # 切割數據
 for i in range(0,FileLength,1):
-    
-    if GetAllFileDta_List[i] == ['END']:       
+
+    if GetAllFileDta_List[i] == ['END']:
        GroupCnt = GroupCnt +1
     else:
        RawData_List[GroupCnt].append(GetAllFileDta_List[i])
 
 
-#print(RawData_List[0][1:])  
-"""========== Group Raw Data by same Blood Pressure=============================""" 
+#print(RawData_List[0][1:])
+"""========== Group Raw Data by same Blood Pressure============================="""
 # regex = \d{1,}_AMP_Reg_\d{1,}_\d{1,}_\d{1,}\D{0,}\d{1,}
 
 #a= str(RawData_List[0][0]).strip('[]')
@@ -100,340 +115,104 @@ for i in range(0,FileLength,1):
 #c2='b'
 #cc=c1+c2
 #print("\n c=",c) # AMP
-"""========== Separate Raw Data -> Amp + mmHg =============================""" 
- 
-FileLength = len(RawData_List) 
-
-# 生成[] list
-SeparateRawData_List=[]
-SeparateRawData_List = [ []* 1 for i in range(RawDtaLen*2) ] # http://blog.hhjh.tn.edu.tw/biosomeday/?p=655
-GroupCnt = 0  
-
-#print(RawData_List[0][1::2]) # AMP
-#print(RawData_List[0][2::2]) # mmHg 
-
- 
-# 切割數據
-for i in range(0,FileLength,1):
-
-       # Amp
-       SeparateRawData_List[GroupCnt].append(RawData_List[i][0])
-       SeparateRawData_List[GroupCnt].append(RawData_List[i][1::2])
-       GroupCnt = GroupCnt +1
-       
-       # mmHG
-       SeparateRawData_List[GroupCnt].append(RawData_List[i][0])
-       SeparateRawData_List[GroupCnt].append(RawData_List[i][2::2])
-       GroupCnt = GroupCnt +1
-       
-       
-#print(SeparateRawData_List[2][:])       
-"""========== Process Txt File Data  ============================="""                 
 
 
-
-# to np
-# calculate
-
+"""========== Process Txt File Data  ============================="""
 
 """=================================  60 / 30 / 80  ============================"""
 SetSystolic = 60
 SetDistolic = 30
+Cnt_60_30_80 = 10
+SetDtaGroupStarIndx = 0
 
-print(SeparateRawData_List[0][1:])    # END = SeparateRawData_List[9][0] 
+Systolic_60_30_80 = bt.SystolicProcess(SetSystolic, Cnt_60_30_80, RawData_List, SetDtaGroupStarIndx)
+Distolic_60_30_80 = bt.DistolicProcess(SetDistolic, Cnt_60_30_80, RawData_List, SetDtaGroupStarIndx)
 
-#for i in range(0,9,1):
-ArrayAmp = np.array(*SeparateRawData_List[0][1:]) # 加*  少一個[] 需詳查
-ArrayAmp = list(map(int, ArrayAmp))
-ArrayAmp = np.array(ArrayAmp)
+#AMP = bt.SeparateAmp(RawData_List, SetDtaGroupStarIndx)
+#mmHg = bt.SeparateMMhg(RawData_List, 5)
 
-ArraymmHg = np.array(*SeparateRawData_List[1][1:])
-ArraymmHg = list(map(int, ArraymmHg))
-ArraymmHg = np.array(ArraymmHg)
-
-
-print("here",np.max(ArrayAmp))
-
-SystolicResult = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
-
-
-
-# Combine Result    
-Systolic_60_30_80_CombineResultVertical = np.vstack(Systolic_60_30_80_CombineResultVertical, SystolicResult)    # vertical stack
-Distolic_60_30_80_CombineResultVertical = np.vstack(DistolicResult1)    # vertical stack
-
-
-#print(Systolic_60_30_80_CombineResultVertical)    
-
-
-
-
-
+#print("\n a=",Distolic_60_30_80)
 
 """================================================ 80 / 50 / 80  ==========================="""
 SetSystolic = 80
 SetDistolic = 50
+Cnt_80_50_80 = 10
+SetDtaGroupStarIndx = 10
 
+Systolic_80_50_80 = bt.SystolicProcess(SetSystolic, Cnt_80_50_80, RawData_List, SetDtaGroupStarIndx)
+Distolic_80_50_80 = bt.DistolicProcess(SetDistolic, Cnt_80_50_80, RawData_List, SetDtaGroupStarIndx)
 
-ArrayAmp = DtaAmp_06_AMP_Reg_80_50_80_S1
-ArraymmHg = DtaMMHg_06_AMP_Reg_80_50_80_S1
-
-SystolicResult1 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult1 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
-
-
-ArrayAmp = DtaAmp_07_AMP_Reg_80_50_80_S2
-ArraymmHg = DtaMMHg_07_AMP_Reg_80_50_80_S2
-
-SystolicResult2 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult2 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
-
-ArrayAmp = DtaAmp_08_AMP_Reg_80_50_80_S3
-ArraymmHg = DtaMMHg_08_AMP_Reg_80_50_80_S3
-
-SystolicResult3 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult3 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
-
-ArrayAmp = DtaAmp_09_AMP_Reg_80_50_80_S4
-ArraymmHg = DtaMMHg_09_AMP_Reg_80_50_80_S4
-
-SystolicResult4 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult4 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
-
-ArrayAmp = DtaAmp_10_AMP_Reg_80_50_80_S5
-ArraymmHg = DtaMMHg_10_AMP_Reg_80_50_80_S5
-
-SystolicResult5 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult5 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
-
-
-# Vertical Combine Result    
-Systolic_80_50_80_CombineResultVertical = np.vstack((SystolicResult1, SystolicResult2, SystolicResult3, SystolicResult4, SystolicResult5))    # vertical stack
-Distolic_80_50_80_CombineResultVertical = np.vstack((DistolicResult1, DistolicResult2, DistolicResult3, DistolicResult4, DistolicResult5))    # vertical stack
-#print(Systolic_80_50_80_CombineResultVertical)    
-
+#print("\n b=",Distolic_80_50_80)
 """================================================ 100 / 65 / 80  ==========================="""
 SetSystolic = 100
 SetDistolic = 65
+Cnt_100_65_80 = 10
+SetDtaGroupStarIndx = 20
 
+Systolic_100_65_80 = bt.SystolicProcess(SetSystolic, Cnt_100_65_80, RawData_List, SetDtaGroupStarIndx)
+Distolic_100_65_80 = bt.DistolicProcess(SetDistolic, Cnt_100_65_80, RawData_List, SetDtaGroupStarIndx)
 
-ArrayAmp = DtaAmp_11_AMP_Reg_100_65_80_S1
-ArraymmHg = DtaMMHg_11_AMP_Reg_100_65_80_S1
-
-SystolicResult1 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult1 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
-
-
-ArrayAmp = DtaAmp_12_AMP_Reg_100_65_80_S2
-ArraymmHg = DtaMMHg_12_AMP_Reg_100_65_80_S2
-
-SystolicResult2 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult2 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
-
-ArrayAmp = DtaAmp_13_AMP_Reg_100_65_80_S3
-ArraymmHg = DtaMMHg_13_AMP_Reg_100_65_80_S3
-
-SystolicResult3 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult3 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
-
-ArrayAmp = DtaAmp_14_AMP_Reg_100_65_80_S4
-ArraymmHg = DtaMMHg_14_AMP_Reg_100_65_80_S4
-
-SystolicResult4 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult4 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
-
-
-
-ArrayAmp = DtaAmp_15_AMP_Reg_100_65_80_S5
-ArraymmHg = DtaMMHg_15_AMP_Reg_100_65_80_S5
-
-SystolicResult5 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult5 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
-
-
-# Vertical Combine Result    
-Systolic_100_65_80_CombineResultVertical = np.vstack((SystolicResult1, SystolicResult2, SystolicResult3, SystolicResult4, SystolicResult5))    # vertical stack
-Distolic_100_65_80_CombineResultVertical = np.vstack((DistolicResult1, DistolicResult2, DistolicResult3, DistolicResult4, DistolicResult5))    # vertical stack
-#print(Systolic_100_65_80_CombineResultVertical)    
-
+#print("\n b=",Distolic_100_65_80)
 """================================================ 120 / 80 / 80  ==========================="""
 SetSystolic = 120
 SetDistolic = 80
+Cnt_120_80_80 = 10
+SetDtaGroupStarIndx = 30
 
 
-ArrayAmp = DtaAmp_16_AMP_Reg_120_80_80_S1
-ArraymmHg = DtaMMHg_16_AMP_Reg_120_80_80_S1
+Systolic_120_80_80 = bt.SystolicProcess(SetSystolic, Cnt_120_80_80, RawData_List, SetDtaGroupStarIndx)
+Distolic_120_80_80 = bt.DistolicProcess(SetDistolic, Cnt_120_80_80, RawData_List, SetDtaGroupStarIndx)
 
-SystolicResult1 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult1 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
-
-
-ArrayAmp = DtaAmp_17_AMP_Reg_120_80_80_S2
-ArraymmHg = DtaMMHg_17_AMP_Reg_120_80_80_S2
-
-SystolicResult2 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult2 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
-
-ArrayAmp = DtaAmp_18_AMP_Reg_120_80_80_S3
-ArraymmHg = DtaMMHg_18_AMP_Reg_120_80_80_S3
-
-SystolicResult3 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult3 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
-
-ArrayAmp = DtaAmp_19_AMP_Reg_120_80_80_S4
-ArraymmHg = DtaMMHg_19_AMP_Reg_120_80_80_S4
-
-SystolicResult4 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult4 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
-
-ArrayAmp = DtaAmp_20_AMP_Reg_120_80_80_S5
-ArraymmHg = DtaMMHg_20_AMP_Reg_120_80_80_S5
-
-SystolicResult5 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult5 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
-
-
-# Vertical Combine Result    
-Systolic_120_80_80_CombineResultVertical = np.vstack((SystolicResult1, SystolicResult2, SystolicResult3, SystolicResult4, SystolicResult5))    # vertical stack
-Distolic_120_80_80_CombineResultVertical = np.vstack((DistolicResult1, DistolicResult2, DistolicResult3, DistolicResult4, DistolicResult5))    # vertical stack
-#print(Systolic_120_80_80_CombineResultVertical)  
- 
-
+#print("\n b=",Distolic_120_80_80)
 """================================================ 150 / 100 / 80  ==========================="""
 SetSystolic = 150
 SetDistolic = 100
+Cnt_150_100_80 = 10
+SetDtaGroupStarIndx = 40
 
+Systolic_150_100_80 = bt.SystolicProcess(SetSystolic, Cnt_150_100_80, RawData_List, SetDtaGroupStarIndx)
+Distolic_150_100_80 = bt.DistolicProcess(SetDistolic, Cnt_150_100_80, RawData_List, SetDtaGroupStarIndx)
 
-ArrayAmp = DtaAmp_21_AMP_Reg_100_65_80_S1
-ArraymmHg = DtaMMHg_21_AMP_Reg_100_65_80_S1
-
-SystolicResult1 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult1 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
-
-
-ArrayAmp = DtaAmp_22_AMP_Reg_150_100_80_S2
-ArraymmHg = DtaMMHg_22_AMP_Reg_150_100_80_S2
-
-SystolicResult2 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult2 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
-
-ArrayAmp = DtaAmp_23_AMP_Reg_150_100_80_S3
-ArraymmHg = DtaMMHg_23_AMP_Reg_150_100_80_S3
-
-SystolicResult3 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult3 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
-
-ArrayAmp = DtaAmp_24_AMP_Reg_150_100_80_S4
-ArraymmHg = DtaMMHg_24_AMP_Reg_150_100_80_S4
-
-SystolicResult4 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult4 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
-
-ArrayAmp = DtaAmp_25_AMP_Reg_150_100_80_S5
-ArraymmHg = DtaMMHg_25_AMP_Reg_150_100_80_S5
-
-SystolicResult5 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult5 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
-
-
-# Vertical Combine Result    
-Systolic_150_100_80_CombineResultVertical = np.vstack((SystolicResult1, SystolicResult2, SystolicResult3, SystolicResult4, SystolicResult5))    # vertical stack
-Distolic_150_100_80_CombineResultVertical = np.vstack((DistolicResult1, DistolicResult2, DistolicResult3, DistolicResult4, DistolicResult5))    # vertical stack
-#print(Systolic_150_100_80_CombineResultVertical)  
-
-
+#print("\n b=",Systolic_150_100_80)
 """================================================ 200 / 150 / 80  ==========================="""
 SetSystolic = 200
 SetDistolic = 150
+Cnt_200_150_80 = 10
+SetDtaGroupStarIndx = 50
 
+Systolic_200_150_80 = bt.SystolicProcess(SetSystolic, Cnt_200_150_80, RawData_List, SetDtaGroupStarIndx)
+Distolic_200_150_80 = bt.DistolicProcess(SetDistolic, Cnt_200_150_80, RawData_List, SetDtaGroupStarIndx)
 
-ArrayAmp = DtaAmp_26_AMP_Reg_200_150_80_S1
-ArraymmHg = DtaMMHg_26_AMP_Reg_200_150_80_S1
-
-SystolicResult1 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult1 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
-
-
-ArrayAmp = DtaAmp_27_AMP_Reg_200_150_80_S2
-ArraymmHg = DtaMMHg_27_AMP_Reg_200_150_80_S2
-
-SystolicResult2 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult2 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
-
-ArrayAmp = DtaAmp_28_AMP_Reg_200_150_80_S3
-ArraymmHg = DtaMMHg_28_AMP_Reg_200_150_80_S3
-
-SystolicResult3 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult3 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
-
-ArrayAmp = DtaAmp_29_AMP_Reg_200_150_80_S4
-ArraymmHg = DtaMMHg_29_AMP_Reg_200_150_80_S4
-
-SystolicResult4 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult4 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
-
-ArrayAmp = DtaAmp_30_AMP_Reg_200_150_80_S5
-ArraymmHg = DtaMMHg_30_AMP_Reg_200_150_80_S5
-
-SystolicResult5 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult5 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
-
-
-# Vertical Combine Result    
-Systolic_200_150_80_CombineResultVertical = np.vstack((SystolicResult1, SystolicResult2, SystolicResult3, SystolicResult4, SystolicResult5))    # vertical stack
-Distolic_200_150_80_CombineResultVertical = np.vstack((DistolicResult1, DistolicResult2, DistolicResult3, DistolicResult4, DistolicResult5))    # vertical stack
-#print(Distolic_200_150_80_CombineResultVertical) 
-
-
+#print("\n b=",Systolic_200_150_80)
 """================================================ 255 / 195 / 80  ==========================="""
 SetSystolic = 255
 SetDistolic = 195
+Cnt_255_195_80 = 10
+SetDtaGroupStarIndx = 50
+
+Systolic_255_195_80 = bt.SystolicProcess(SetSystolic, Cnt_255_195_80, RawData_List, SetDtaGroupStarIndx)
+Distolic_255_195_80 = bt.DistolicProcess(SetDistolic, Cnt_255_195_80, RawData_List, SetDtaGroupStarIndx)
+
+#print("\n b=",Systolic_255_195_80)
+"""================================================ Combine ALL Result  ==========================="""
+SystolicResult = np.vstack((Systolic_60_30_80,
+                            Systolic_80_50_80,
+                            Systolic_100_65_80,
+                            Systolic_120_80_80,
+                            Systolic_150_100_80,
+                            Systolic_200_150_80,
+                            Systolic_255_195_80))    # vertical stack
+
+DistolicResult = np.vstack((Distolic_60_30_80,
+                            Distolic_80_50_80,
+                            Distolic_100_65_80,
+                            Distolic_120_80_80,
+                            Distolic_150_100_80,
+                            Distolic_200_150_80,
+                            Distolic_255_195_80))    # vertical stack
 
 
-ArrayAmp = DtaAmp_31_AMP_Reg_255_195_80_S1
-ArraymmHg = DtaMMHg_31_AMP_Reg_255_195_80_S1
-
-
-SystolicResult1 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult1 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
-
-
-ArrayAmp = DtaAmp_32_AMP_Reg_255_195_80_S2
-ArraymmHg = DtaMMHg_32_AMP_Reg_255_195_80_S2
-
-SystolicResult2 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult2 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
-
-ArrayAmp = DtaAmp_33_AMP_Reg_255_195_80_S3
-ArraymmHg = DtaMMHg_33_AMP_Reg_255_195_80_S3
-
-SystolicResult3 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult3 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
-
-ArrayAmp = DtaAmp_34_AMP_Reg_255_195_80_S4
-ArraymmHg = DtaMMHg_34_AMP_Reg_255_195_80_S4
-
-SystolicResult4 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult4 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
-
-ArrayAmp = DtaAmp_35_AMP_Reg_255_195_80_S5
-ArraymmHg = DtaMMHg_35_AMP_Reg_255_195_80_S5
-
-SystolicResult5 = bt.SystolicProcessDta(ArrayAmp, ArraymmHg, SetSystolic)
-DistolicResult5 = bt.DistolicProcessDta(ArrayAmp, ArraymmHg, SetDistolic)
-
-
-# Vertical Combine Result    
-Systolic_255_195_80_CombineResultVertical = np.vstack((SystolicResult1, SystolicResult2, SystolicResult3, SystolicResult4, SystolicResult5))    # vertical stack
-Distolic_255_195_80_CombineResultVertical = np.vstack((DistolicResult1, DistolicResult2, DistolicResult3, DistolicResult4, DistolicResult5))    # vertical stack
-#print(Systolic_255_195_80_CombineResultVertical)
-
-"""================================================ ALL  ==========================="""
-SystolicResult = np.vstack((Systolic_60_30_80_CombineResultVertical, Systolic_80_50_80_CombineResultVertical, Systolic_100_65_80_CombineResultVertical, Systolic_120_80_80_CombineResultVertical, Systolic_150_100_80_CombineResultVertical, Systolic_200_150_80_CombineResultVertical, Systolic_255_195_80_CombineResultVertical))    # vertical stack
-DistolicResult = np.vstack((Distolic_60_30_80_CombineResultVertical, Distolic_80_50_80_CombineResultVertical, Distolic_100_65_80_CombineResultVertical, Distolic_120_80_80_CombineResultVertical, Distolic_150_100_80_CombineResultVertical, Distolic_200_150_80_CombineResultVertical, Distolic_255_195_80_CombineResultVertical))    # vertical stack
 #print("\n DistolicResult\n", DistolicResult)
-
 """================================================ Systolic Statistics  ==========================="""
 
 
@@ -494,9 +273,9 @@ print("\n ============== SystolicCoeff_H ============== \n")
 
 # lambda函数的形式是: lambda x: expression(x)
 # lambda允许快速定义单行的最小函数，类似与C语言中的macro，这些叫做lambda的函数，是从LISP借用来的
-#>>> g = lambda x: x * 2 
-#>>> g(3) 
-#6 
+#>>> g = lambda x: x * 2
+#>>> g(3)
+#6
 SystolicCoeff_H_RemoveZero = filter(lambda x: x > 0, SystolicCoeff_H)
 SystolicCoeff_H_RemoveZero = np.array(list(SystolicCoeff_H_RemoveZero))
 #print("SystolicCoeff_H_RemoveZero=\n" , SystolicCoeff_H_RemoveZero)
