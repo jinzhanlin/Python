@@ -17,20 +17,20 @@ import os.path
 
 import sys;
 sys.path.append("F:\GitSystem\Python\Common")
-import CommonTool as ct
+import Common as cm
+import Statistics as Stat
 
 import BPTool as bt
-
-
 
 
 """========== Define  ============================="""
 SaveResult2CSV = False # True False
 
-
+Print_SystolicAllCoeff = False
+Print_DistolicAllCoeff = False
 
 """========== Load  ============================="""
-InputPath = ct.GetFilePath()
+InputPath = cm.GetFilePath()
 
 """
 TXT Format
@@ -125,13 +125,16 @@ SetDistolic = 30
 Cnt_60_30_80 = 10
 SetDtaGroupStarIndx = 0
 
-Systolic_60_30_80 = bt.SystolicProcess(SetSystolic, Cnt_60_30_80, RawData_List, SetDtaGroupStarIndx)
-Distolic_60_30_80 = bt.DistolicProcess(SetDistolic, Cnt_60_30_80, RawData_List, SetDtaGroupStarIndx)
+Systolic_60_30_80 = bt.SystolicProcess(SetSystolic, Cnt_60_30_80, RawData_List, SetDtaGroupStarIndx, False)
+Distolic_60_30_80 = bt.DistolicProcess(SetDistolic, Cnt_60_30_80, RawData_List, SetDtaGroupStarIndx, False)
 
-#AMP = bt.SeparateAmp(RawData_List, SetDtaGroupStarIndx)
-#mmHg = bt.SeparateMMhg(RawData_List, 5)
 
-#print("\n a=",Distolic_60_30_80)
+
+print("\n ============== SystolicCoeff_M , 60 / 30 / 80 ==============\n")
+SystolicCoeff_M = bt.GetCoeff_M(Systolic_60_30_80, 5, False)
+AryRemoveZero = cm.FilterAryValue(SystolicCoeff_M, 0, False)
+Stat.BasicStatistic(AryRemoveZero, True)
+
 
 """================================================ 80 / 50 / 80  ==========================="""
 SetSystolic = 80
@@ -139,8 +142,8 @@ SetDistolic = 50
 Cnt_80_50_80 = 10
 SetDtaGroupStarIndx = 10
 
-Systolic_80_50_80 = bt.SystolicProcess(SetSystolic, Cnt_80_50_80, RawData_List, SetDtaGroupStarIndx)
-Distolic_80_50_80 = bt.DistolicProcess(SetDistolic, Cnt_80_50_80, RawData_List, SetDtaGroupStarIndx)
+Systolic_80_50_80 = bt.SystolicProcess(SetSystolic, Cnt_80_50_80, RawData_List, SetDtaGroupStarIndx, False)
+Distolic_80_50_80 = bt.DistolicProcess(SetDistolic, Cnt_80_50_80, RawData_List, SetDtaGroupStarIndx, False)
 
 #print("\n b=",Distolic_80_50_80)
 """================================================ 100 / 65 / 80  ==========================="""
@@ -149,8 +152,8 @@ SetDistolic = 65
 Cnt_100_65_80 = 10
 SetDtaGroupStarIndx = 20
 
-Systolic_100_65_80 = bt.SystolicProcess(SetSystolic, Cnt_100_65_80, RawData_List, SetDtaGroupStarIndx)
-Distolic_100_65_80 = bt.DistolicProcess(SetDistolic, Cnt_100_65_80, RawData_List, SetDtaGroupStarIndx)
+Systolic_100_65_80 = bt.SystolicProcess(SetSystolic, Cnt_100_65_80, RawData_List, SetDtaGroupStarIndx, False)
+Distolic_100_65_80 = bt.DistolicProcess(SetDistolic, Cnt_100_65_80, RawData_List, SetDtaGroupStarIndx, False)
 
 #print("\n b=",Distolic_100_65_80)
 """================================================ 120 / 80 / 80  ==========================="""
@@ -160,8 +163,8 @@ Cnt_120_80_80 = 10
 SetDtaGroupStarIndx = 30
 
 
-Systolic_120_80_80 = bt.SystolicProcess(SetSystolic, Cnt_120_80_80, RawData_List, SetDtaGroupStarIndx)
-Distolic_120_80_80 = bt.DistolicProcess(SetDistolic, Cnt_120_80_80, RawData_List, SetDtaGroupStarIndx)
+Systolic_120_80_80 = bt.SystolicProcess(SetSystolic, Cnt_120_80_80, RawData_List, SetDtaGroupStarIndx, False)
+Distolic_120_80_80 = bt.DistolicProcess(SetDistolic, Cnt_120_80_80, RawData_List, SetDtaGroupStarIndx, False)
 
 #print("\n b=",Distolic_120_80_80)
 """================================================ 150 / 100 / 80  ==========================="""
@@ -170,8 +173,8 @@ SetDistolic = 100
 Cnt_150_100_80 = 10
 SetDtaGroupStarIndx = 40
 
-Systolic_150_100_80 = bt.SystolicProcess(SetSystolic, Cnt_150_100_80, RawData_List, SetDtaGroupStarIndx)
-Distolic_150_100_80 = bt.DistolicProcess(SetDistolic, Cnt_150_100_80, RawData_List, SetDtaGroupStarIndx)
+Systolic_150_100_80 = bt.SystolicProcess(SetSystolic, Cnt_150_100_80, RawData_List, SetDtaGroupStarIndx, False)
+Distolic_150_100_80 = bt.DistolicProcess(SetDistolic, Cnt_150_100_80, RawData_List, SetDtaGroupStarIndx, False)
 
 #print("\n b=",Systolic_150_100_80)
 """================================================ 200 / 150 / 80  ==========================="""
@@ -180,8 +183,8 @@ SetDistolic = 150
 Cnt_200_150_80 = 10
 SetDtaGroupStarIndx = 50
 
-Systolic_200_150_80 = bt.SystolicProcess(SetSystolic, Cnt_200_150_80, RawData_List, SetDtaGroupStarIndx)
-Distolic_200_150_80 = bt.DistolicProcess(SetDistolic, Cnt_200_150_80, RawData_List, SetDtaGroupStarIndx)
+Systolic_200_150_80 = bt.SystolicProcess(SetSystolic, Cnt_200_150_80, RawData_List, SetDtaGroupStarIndx, False)
+Distolic_200_150_80 = bt.DistolicProcess(SetDistolic, Cnt_200_150_80, RawData_List, SetDtaGroupStarIndx, False)
 
 #print("\n b=",Systolic_200_150_80)
 """================================================ 255 / 195 / 80  ==========================="""
@@ -190,8 +193,8 @@ SetDistolic = 195
 Cnt_255_195_80 = 10
 SetDtaGroupStarIndx = 50
 
-Systolic_255_195_80 = bt.SystolicProcess(SetSystolic, Cnt_255_195_80, RawData_List, SetDtaGroupStarIndx)
-Distolic_255_195_80 = bt.DistolicProcess(SetDistolic, Cnt_255_195_80, RawData_List, SetDtaGroupStarIndx)
+Systolic_255_195_80 = bt.SystolicProcess(SetSystolic, Cnt_255_195_80, RawData_List, SetDtaGroupStarIndx, False)
+Distolic_255_195_80 = bt.DistolicProcess(SetDistolic, Cnt_255_195_80, RawData_List, SetDtaGroupStarIndx, False)
 
 #print("\n b=",Systolic_255_195_80)
 """================================================ Combine ALL Result  ==========================="""
@@ -213,277 +216,77 @@ DistolicResult = np.vstack((Distolic_60_30_80,
 
 
 #print("\n DistolicResult\n", DistolicResult)
-"""================================================ Systolic Statistics  ==========================="""
+"""================================================ ALL Systolic Statistics  ==========================="""
 
 
-
-SystolicCoeff_M = SystolicResult[:,5]
-SystolicCoeff_H = SystolicResult[:,9]
-SystolicCoeff_L = SystolicResult[:,13]
-
-
-
+SystolicCoeff_M = bt.GetCoeff_M(SystolicResult, 5, False)
+SystolicCoeff_H = bt.GetCoeff_H(SystolicResult, 9, False)
+SystolicCoeff_L = bt.GetCoeff_L(SystolicResult, 13, False)
 SystolicCoeff_All = np.hstack((SystolicCoeff_M, SystolicCoeff_H, SystolicCoeff_L))
-SystolicCoeff_All_Vertical = np.vstack((SystolicCoeff_M, SystolicCoeff_H, SystolicCoeff_L))
-#print("\n SystolicCoeff_All_Vertical \n", SystolicCoeff_All_Vertical)
-#print("\n SystolicCoeff_All \n", SystolicCoeff_M)
 
 
-SystolicCoeff_M_CntStatistic = pd.value_counts(SystolicCoeff_M) # 統計各元素出現次數
-#print("\n ----- SystolicCoeff_M_CntStatistic -----\n", SystolicCoeff_M_CntStatistic)
-
-SystolicCoeff_H_CntStatistic = pd.value_counts(SystolicCoeff_H) # 統計各元素出現次數
-#print("\n ----- SystolicCoeff_H_CntStatistic -----\n", SystolicCoeff_H_CntStatistic)
-
-SystolicCoeff_L_CntStatistic = pd.value_counts(SystolicCoeff_L) # 統計各元素出現次數
-#print("\n ----- SystolicCoeff_L_CntStatistic -----\n", SystolicCoeff_L_CntStatistic)
-
-SystolicCoeff_All_CntStatistic = pd.value_counts(SystolicCoeff_All) # 統計各元素出現次數
-#print("\n ----- SystolicCoeff_All_CntStatistic -----\n", SystolicCoeff_All_CntStatistic)
+Stat.DataValueCounts(SystolicCoeff_M, False)
+Stat.DataValueCounts(SystolicCoeff_H, False)
+Stat.DataValueCounts(SystolicCoeff_L, False)
+Stat.DataValueCounts(SystolicCoeff_All, False)
 
 
+print("\n ============== SystolicCoeff_M  ,ALL==============\n")
 
-print("\n ============== SystolicCoeff_M ==============\n")
-
-SystolicCoeff_M_RemoveZero = filter(lambda x: x > 0, SystolicCoeff_M)
-SystolicCoeff_M_RemoveZero = np.array(list(SystolicCoeff_M_RemoveZero))
-
-# Max
-Max_SystolicCoeff_M = np.max(SystolicCoeff_M_RemoveZero)
-print("Max =", Max_SystolicCoeff_M)
-
-# Min
-Min_SystolicCoeff_M = np.min(SystolicCoeff_M_RemoveZero)
-print("Min =", Min_SystolicCoeff_M)
-
-# Mean
-Mean_SystolicCoeff_M = np.mean(SystolicCoeff_M_RemoveZero)
-print("Mean =", Mean_SystolicCoeff_M)
-
-# 标准差
-SD_SystolicCoeff_M = np.std(SystolicCoeff_M_RemoveZero)
-print("SD =", SD_SystolicCoeff_M)
-
-# Var
-Var_SystolicCoeff_M = np.var(SystolicCoeff_M_RemoveZero)
-print("Var =", Var_SystolicCoeff_M)
+AryRemoveZero = cm.FilterAryValue(SystolicCoeff_M, 0, False)
+Stat.BasicStatistic(AryRemoveZero, Print_SystolicAllCoeff)
 
 
-print("\n ============== SystolicCoeff_H ============== \n")
+print("\n ============== SystolicCoeff_H ,ALL============== \n")
 
-# lambda函数的形式是: lambda x: expression(x)
-# lambda允许快速定义单行的最小函数，类似与C语言中的macro，这些叫做lambda的函数，是从LISP借用来的
-#>>> g = lambda x: x * 2
-#>>> g(3)
-#6
-SystolicCoeff_H_RemoveZero = filter(lambda x: x > 0, SystolicCoeff_H)
-SystolicCoeff_H_RemoveZero = np.array(list(SystolicCoeff_H_RemoveZero))
-#print("SystolicCoeff_H_RemoveZero=\n" , SystolicCoeff_H_RemoveZero)
-
-# Max
-Max_SystolicCoeff_H = np.max(SystolicCoeff_H_RemoveZero)
-print("Max =", Max_SystolicCoeff_H)
-
-# Min
-Min_SystolicCoeff_H = np.min(SystolicCoeff_H_RemoveZero)
-print("Min =", Min_SystolicCoeff_H)
-
-# Mean
-Mean_SystolicCoeff_H = np.mean(SystolicCoeff_H_RemoveZero)
-print("Mean =", Mean_SystolicCoeff_H)
-
-# 标准差
-SD_SystolicCoeff_H = np.std(SystolicCoeff_H_RemoveZero)
-print("SD =", SD_SystolicCoeff_H)
-
-# Var
-Var_SystolicCoeff_H = np.var(SystolicCoeff_H_RemoveZero)
-print("Var =", Var_SystolicCoeff_H)
+AryRemoveZero = cm.FilterAryValue(SystolicCoeff_H, 0, False)
+Stat.BasicStatistic(AryRemoveZero, Print_SystolicAllCoeff)
 
 
+print("\n ============== SystolicCoeff_L ,ALL============== \n")
 
-print("\n ============== SystolicCoeff_L ============== \n")
-
-SystolicCoeff_L_RemoveZero = filter(lambda x: x > 0, SystolicCoeff_L)
-SystolicCoeff_L_RemoveZero = np.array(list(SystolicCoeff_L_RemoveZero))
-
-# Max
-Max_SystolicCoeff_L = np.max(SystolicCoeff_L_RemoveZero)
-print("Max =", Max_SystolicCoeff_L)
-
-# Min
-Min_SystolicCoeff_L = np.min(SystolicCoeff_L_RemoveZero)
-print("Min =", Min_SystolicCoeff_L)
-
-# Mean
-Mean_SystolicCoeff_L = np.mean(SystolicCoeff_L_RemoveZero)
-print("Mean =", Mean_SystolicCoeff_L)
-
-# 标准差
-SD_SystolicCoeff_L = np.std(SystolicCoeff_L_RemoveZero)
-print("SD =", SD_SystolicCoeff_L)
-
-# Var
-Var_SystolicCoeff_L = np.var(SystolicCoeff_L_RemoveZero)
-print("Var =", Var_SystolicCoeff_L)
+AryRemoveZero = cm.FilterAryValue(SystolicCoeff_L, 0, False)
+Stat.BasicStatistic(AryRemoveZero, Print_SystolicAllCoeff)
 
 
-print("\n ============== SystolicCoeff_ALL ============== \n")
+print("\n ============== SystolicCoeff_ALL ,ALL============== \n")
 
-SystolicCoeff_All_RemoveZero = filter(lambda x: x > 0, SystolicCoeff_All)
-SystolicCoeff_All_RemoveZero = np.array(list(SystolicCoeff_All_RemoveZero))
-
-# Max
-Max_SystolicCoeff_All = np.max(SystolicCoeff_All_RemoveZero)
-print("Max =", Max_SystolicCoeff_All)
-
-# Min
-Min_SystolicCoeff_All = np.min(SystolicCoeff_All_RemoveZero)
-print("Min =", Min_SystolicCoeff_All)
-
-# Mean
-Mean_SystolicCoeff_All = np.mean(SystolicCoeff_All_RemoveZero)
-print("Mean =", Mean_SystolicCoeff_All)
-
-# 标准差
-SD_SystolicCoeff_All = np.std(SystolicCoeff_All_RemoveZero)
-print("SD =", SD_SystolicCoeff_All)
-
-# Var
-Var_SystolicCoeff_All = np.var(SystolicCoeff_All_RemoveZero)
-print("Var =", Var_SystolicCoeff_All)
-
+AryRemoveZero = cm.FilterAryValue(SystolicCoeff_All, 0, False)
+Stat.BasicStatistic(AryRemoveZero, Print_SystolicAllCoeff)
 
 """================================================ Distolic Statistics  ==========================="""
 
 
-DistolicCoeff_M = DistolicResult[:,5]
-DistolicCoeff_H = DistolicResult[:,9]
-DistolicCoeff_L = DistolicResult[:,13]
-
-
+DistolicCoeff_M = bt.GetCoeff_M(DistolicResult, 5, False)
+DistolicCoeff_H = bt.GetCoeff_H(DistolicResult, 9, False)
+DistolicCoeff_L = bt.GetCoeff_L(DistolicResult, 13, False)
 DistolicCoeff_All = np.hstack((DistolicCoeff_M, DistolicCoeff_H, DistolicCoeff_L))
-#print("\n SystolicCoeff_All \n", DistolicCoeff_All)
+
+Stat.DataValueCounts(DistolicCoeff_M, False)
+Stat.DataValueCounts(DistolicCoeff_H, False)
+Stat.DataValueCounts(DistolicCoeff_L, False)
+Stat.DataValueCounts(DistolicCoeff_All, False)
+
+print("\n ============== DistolicCoeff_M, All ==============\n")
+
+AryRemoveZero = cm.FilterAryValue(DistolicCoeff_M, 0, False)
+Stat.BasicStatistic(AryRemoveZero, Print_DistolicAllCoeff)
+
+print("\n ============== DistolicCoeff_H ,ALL============== \n")
+
+AryRemoveZero = cm.FilterAryValue(DistolicCoeff_H, 0, False)
+Stat.BasicStatistic(AryRemoveZero, Print_DistolicAllCoeff)
+
+print("\n ============== DistolicCoeff_L ,ALL============== \n")
+
+AryRemoveZero = cm.FilterAryValue(DistolicCoeff_L, 0, False)
+Stat.BasicStatistic(AryRemoveZero, Print_DistolicAllCoeff)
 
 
-DistolicCoeff_M_CntStatistic = pd.value_counts(DistolicCoeff_M) # 統計各元素出現次數
-#print("\n ----- DistolicCoeff_M_CntStatistic -----\n", SystolicCoeff_M_CntStatistic)
+print("\n ============== DistolicCoeff_All ,ALL============== \n")
 
-DistolicCoeff_H_CntStatistic = pd.value_counts(DistolicCoeff_H) # 統計各元素出現次數
-#print("\n ----- DistolicCoeff_H_CntStatistic -----\n", DistolicCoeff_H_CntStatistic)
-
-DistolicCoeff_L_CntStatistic = pd.value_counts(DistolicCoeff_L) # 統計各元素出現次數
-#print("\n ----- DistolicCoeff_L_CntStatistic -----\n", DistolicCoeff_L_CntStatistic)
-
-DistolicCoeff_All_CntStatistic = pd.value_counts(DistolicCoeff_All) # 統計各元素出現次數
-#print("\n ----- DistolicCoeff_All_CntStatistic -----\n", DistolicCoeff_All_CntStatistic)
-
-
-print("\n ============== DistolicCoeff_M ==============\n")
-
-DistolicCoeff_M_RemoveZero = filter(lambda x: x > 0, DistolicCoeff_M)
-DistolicCoeff_M_RemoveZero = np.array(list(DistolicCoeff_M_RemoveZero))
-
-# Max
-Max_DistolicCoeff_M = np.max(DistolicCoeff_M)
-print("Max =", Max_DistolicCoeff_M)
-
-# Min
-Min_DistolicCoeff_M = np.min(DistolicCoeff_M)
-print("Min =", Min_DistolicCoeff_M)
-
-# Mean
-Mean_DistolicCoeff_M = np.mean(DistolicCoeff_M)
-print("Mean =", Mean_DistolicCoeff_M)
-
-# 标准差
-SD_DistolicCoeff_M = np.std(DistolicCoeff_M)
-print("SD =", SD_DistolicCoeff_M)
-
-# Var
-Var_DistolicCoeff_M = np.var(DistolicCoeff_M)
-print("Var =", Var_DistolicCoeff_M)
-
-
-print("\n ============== DistolicCoeff_H ============== \n")
-
-
-DistolicCoeff_H_RemoveZero = filter(lambda x: x > 0, DistolicCoeff_H)
-DistolicCoeff_H_RemoveZero = np.array(list(DistolicCoeff_H_RemoveZero))
-#print("SystolicCoeff_H_RemoveZero=\n" , SystolicCoeff_H_RemoveZero)
-
-# Max
-Max_DistolicCoeff_H = np.max(DistolicCoeff_H_RemoveZero)
-print("Max =", Max_DistolicCoeff_H)
-
-# Min
-Min_DistolicCoeff_H = np.min(DistolicCoeff_H_RemoveZero)
-print("Min =", Min_DistolicCoeff_H)
-
-# Mean
-Mean_DistolicCoeff_H = np.mean(DistolicCoeff_H_RemoveZero)
-print("Mean =", Mean_DistolicCoeff_H)
-
-# 标准差
-SD_DistolicCoeff_H = np.std(DistolicCoeff_H_RemoveZero)
-print("SD =", SD_DistolicCoeff_H)
-
-# Var
-Var_DistolicCoeff_H = np.var(DistolicCoeff_H_RemoveZero)
-print("Var =", Var_DistolicCoeff_H)
-
-
-
-print("\n ============== DistolicCoeff_L ============== \n")
-
-DistolicCoeff_L_RemoveZero = filter(lambda x: x > 0, DistolicCoeff_L)
-DistolicCoeff_L_RemoveZero = np.array(list(DistolicCoeff_L_RemoveZero))
-
-# Max
-Max_DistolicCoeff_L = np.max(DistolicCoeff_L_RemoveZero)
-print("Max =", Max_DistolicCoeff_L)
-
-# Min
-Min_DistolicCoeff_L = np.min(DistolicCoeff_L_RemoveZero)
-print("Min =", Min_DistolicCoeff_L)
-
-# Mean
-Mean_DistolicCoeff_L = np.mean(DistolicCoeff_L_RemoveZero)
-print("Mean =", Mean_DistolicCoeff_L)
-
-# 标准差
-SD_DistolicCoeff_L = np.std(DistolicCoeff_L_RemoveZero)
-print("SD =", SD_DistolicCoeff_L)
-
-# Var
-Var_DistolicCoeff_L = np.var(DistolicCoeff_L_RemoveZero)
-print("Var =", Var_DistolicCoeff_L)
-
-
-print("\n ============== DistolicCoeff_All ============== \n")
-
-DistolicCoeff_All_RemoveZero = filter(lambda x: x > 0, DistolicCoeff_All)
-DistolicCoeff_All_RemoveZero = np.array(list(DistolicCoeff_All_RemoveZero))
-
-# Max
-Max_DistolicCoeff_All = np.max(SystolicCoeff_All_RemoveZero)
-print("Max =", Max_DistolicCoeff_All)
-
-# Min
-Min_DistolicCoeff_All = np.min(SystolicCoeff_All_RemoveZero)
-print("Min =", Min_DistolicCoeff_All)
-
-# Mean
-Mean_DistolicCoeff_All = np.mean(SystolicCoeff_All_RemoveZero)
-print("Mean =", Mean_DistolicCoeff_All)
-
-# 标准差
-SD_DistolicCoeff_All = np.std(SystolicCoeff_All_RemoveZero)
-print("SD =", SD_DistolicCoeff_All)
-
-# Var
-Var_DistolicCoeff_All = np.var(SystolicCoeff_All_RemoveZero)
-print("Var =", Var_DistolicCoeff_All)
+AryRemoveZero = cm.FilterAryValue(DistolicCoeff_All, 0, False)
+Stat.BasicStatistic(AryRemoveZero, Print_DistolicAllCoeff)
 
 """================================================ Dump data to CSV  ==========================="""
 
