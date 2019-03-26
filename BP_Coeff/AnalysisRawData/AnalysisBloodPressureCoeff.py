@@ -17,10 +17,12 @@ import os.path
 
 import sys;
 sys.path.append("F:\GitSystem\Python\Common")
+#sys.path.append("D:\GitSystem\Python\Common")
 import Common as cm
 import Statistics as Stat
 
 import BPTool as bt
+import BPVerify as bv
 
 
 """========== Define  ============================="""
@@ -28,6 +30,7 @@ SaveResult2CSV = False # True False
 
 Print_SystolicAllCoeff = False
 Print_DistolicAllCoeff = False
+
 
 """========== Load  ============================="""
 InputPath = cm.GetFilePath()
@@ -119,6 +122,9 @@ for i in range(0,FileLength,1):
 
 """========== Process Txt File Data  ============================="""
 
+
+
+
 """=================================  60 / 30 / 80  ============================"""
 SetSystolic = 60
 SetDistolic = 30
@@ -129,11 +135,10 @@ Systolic_60_30_80 = bt.SystolicProcess(SetSystolic, Cnt_60_30_80, RawData_List, 
 Distolic_60_30_80 = bt.DistolicProcess(SetDistolic, Cnt_60_30_80, RawData_List, SetDtaGroupStarIndx, False)
 
 
-
 print("\n ============== SystolicCoeff_M , 60 / 30 / 80 ==============\n")
 SystolicCoeff_M = bt.GetCoeff_M(Systolic_60_30_80, 5, False)
 AryRemoveZero = cm.FilterAryValue(SystolicCoeff_M, 0, False)
-Stat.BasicStatistic(AryRemoveZero, True)
+Stat.BasicStatistic(AryRemoveZero, False)
 
 
 """================================================ 80 / 50 / 80  ==========================="""
@@ -145,6 +150,12 @@ SetDtaGroupStarIndx = 10
 Systolic_80_50_80 = bt.SystolicProcess(SetSystolic, Cnt_80_50_80, RawData_List, SetDtaGroupStarIndx, False)
 Distolic_80_50_80 = bt.DistolicProcess(SetDistolic, Cnt_80_50_80, RawData_List, SetDtaGroupStarIndx, False)
 
+
+print("\n ============== SystolicCoeff_M , 80 / 50 / 80 ==============\n")
+SystolicCoeff_M = bt.GetCoeff_M(Systolic_80_50_80, 5, False)
+AryRemoveZero = cm.FilterAryValue(SystolicCoeff_M, 0, False)
+Stat.BasicStatistic(AryRemoveZero, True)
+
 #print("\n b=",Distolic_80_50_80)
 """================================================ 100 / 65 / 80  ==========================="""
 SetSystolic = 100
@@ -154,6 +165,8 @@ SetDtaGroupStarIndx = 20
 
 Systolic_100_65_80 = bt.SystolicProcess(SetSystolic, Cnt_100_65_80, RawData_List, SetDtaGroupStarIndx, False)
 Distolic_100_65_80 = bt.DistolicProcess(SetDistolic, Cnt_100_65_80, RawData_List, SetDtaGroupStarIndx, False)
+
+
 
 #print("\n b=",Distolic_100_65_80)
 """================================================ 120 / 80 / 80  ==========================="""
@@ -166,6 +179,8 @@ SetDtaGroupStarIndx = 30
 Systolic_120_80_80 = bt.SystolicProcess(SetSystolic, Cnt_120_80_80, RawData_List, SetDtaGroupStarIndx, False)
 Distolic_120_80_80 = bt.DistolicProcess(SetDistolic, Cnt_120_80_80, RawData_List, SetDtaGroupStarIndx, False)
 
+
+
 #print("\n b=",Distolic_120_80_80)
 """================================================ 150 / 100 / 80  ==========================="""
 SetSystolic = 150
@@ -175,6 +190,9 @@ SetDtaGroupStarIndx = 40
 
 Systolic_150_100_80 = bt.SystolicProcess(SetSystolic, Cnt_150_100_80, RawData_List, SetDtaGroupStarIndx, False)
 Distolic_150_100_80 = bt.DistolicProcess(SetDistolic, Cnt_150_100_80, RawData_List, SetDtaGroupStarIndx, False)
+
+
+
 
 #print("\n b=",Systolic_150_100_80)
 """================================================ 200 / 150 / 80  ==========================="""
@@ -186,15 +204,21 @@ SetDtaGroupStarIndx = 50
 Systolic_200_150_80 = bt.SystolicProcess(SetSystolic, Cnt_200_150_80, RawData_List, SetDtaGroupStarIndx, False)
 Distolic_200_150_80 = bt.DistolicProcess(SetDistolic, Cnt_200_150_80, RawData_List, SetDtaGroupStarIndx, False)
 
+
+
+
 #print("\n b=",Systolic_200_150_80)
 """================================================ 255 / 195 / 80  ==========================="""
 SetSystolic = 255
 SetDistolic = 195
 Cnt_255_195_80 = 10
-SetDtaGroupStarIndx = 50
+SetDtaGroupStarIndx = 60
 
 Systolic_255_195_80 = bt.SystolicProcess(SetSystolic, Cnt_255_195_80, RawData_List, SetDtaGroupStarIndx, False)
 Distolic_255_195_80 = bt.DistolicProcess(SetDistolic, Cnt_255_195_80, RawData_List, SetDtaGroupStarIndx, False)
+
+#np.savetxt('Systolic.csv', Systolic_255_195_80, delimiter = ',')
+#np.savetxt('Distolic.csv', Distolic_255_195_80, delimiter = ',')
 
 #print("\n b=",Systolic_255_195_80)
 """================================================ Combine ALL Result  ==========================="""
@@ -287,6 +311,136 @@ print("\n ============== DistolicCoeff_All ,ALL============== \n")
 
 AryRemoveZero = cm.FilterAryValue(DistolicCoeff_All, 0, False)
 Stat.BasicStatistic(AryRemoveZero, Print_DistolicAllCoeff)
+
+
+
+print("\n *********************************************************")
+print(" ============== Verify Coeff ================ ==============")
+print(" *********************************************************\n")
+
+print("\n ============== Verify Coeff  , 60 / 30 / 80, Systolic < 70mmHg ==============\n")
+SetDtaGroupStarIndx = 0 # 60 / 30 / 80
+
+SetMode_Systolic = 0
+Coeff_M = 0.44
+Coeff_H = 0.48
+Coeff_L = 0.40
+
+# Debug
+#RawData_Array = bv.GetData(RawData_List, 1, True) # True False
+#ClosestValue = bv.ClosestCoeffAMP(RawData_Array,Coeff_L, SetMode_Systolic,False)
+#print("\n Target_AMP=", ClosestValue[4])
+## Separate Data to AMP
+#AMP = bt.SeparateAmp(RawData_List, 1)
+#mmHg = bt.SeparateMMhg(RawData_List, 1)
+#print("\n AMP=", AMP)
+#print("\n mmHg=", mmHg)
+
+#bv.QMS_VerifyBPM(RawData_List, 1, Coeff_M, Coeff_H, Coeff_L, 1, SetMode_Systolic, True) # False
+#bv.QMS_VerifyBPM(RawData_List, 10, Coeff_M, Coeff_H, Coeff_L, SetDtaGroupStarIndx, SetMode_Systolic, False) # False
+
+SetMode_Distolic = 1
+Coeff_M = 0.50
+Coeff_H = 0.40
+Coeff_L = 0.30
+
+#bv.QMS_VerifyBPM(RawData_List, 1, Coeff_M, Coeff_H, Coeff_L, 0, SetMode_Distolic, True) # False
+#bv.QMS_VerifyBPM(RawData_List, 10, Coeff_M, Coeff_H, Coeff_L, SetDtaGroupStarIndx, SetMode_Distolic, False) # False
+
+print("\n ============== Verify Coeff  , 80 / 50 / 80 , 70 <= Systolic < 90mmHg==============\n")
+SetDtaGroupStarIndx = 10 # 80 / 50 / 80
+
+SetMode_Systolic = 0
+Coeff_M = 0.44
+Coeff_H = 0.46
+Coeff_L = 0.48
+
+#bv.QMS_VerifyBPM(RawData_List, 10, Coeff_M, Coeff_H, Coeff_L, SetDtaGroupStarIndx, SetMode_Systolic, False) # False
+
+
+SetMode_Distolic = 1
+Coeff_M = 0.38
+Coeff_H = 0.39
+Coeff_L = 0.37 # 0.36
+
+#bv.QMS_VerifyBPM(RawData_List, 10, Coeff_M, Coeff_H, Coeff_L, SetDtaGroupStarIndx, SetMode_Distolic, False) # False
+
+print("\n ============== Verify Coeff  , 100 / 65 / 80 , 90 <= Systolic < 110mmHg==============\n")
+SetDtaGroupStarIndx = 20 # 100 / 65 / 80
+
+SetMode_Systolic = 0
+Coeff_M = 0.48
+Coeff_H = 0.50
+Coeff_L = 0.46
+
+#bv.QMS_VerifyBPM(RawData_List, 10, Coeff_M, Coeff_H, Coeff_L, SetDtaGroupStarIndx, SetMode_Systolic, False) # False
+
+
+SetMode_Distolic = 1
+Coeff_M = 0.44
+Coeff_H = 0.49
+Coeff_L = 0.39
+
+#bv.QMS_VerifyBPM(RawData_List, 1, Coeff_M, Coeff_H, Coeff_L, 24, SetMode_Distolic, True) # False
+#bv.QMS_VerifyBPM(RawData_List, 10, Coeff_M, Coeff_H, Coeff_L, SetDtaGroupStarIndx, SetMode_Distolic, False) # False
+
+print("\n ============== Verify Coeff  , 120 / 80 / 80 , 110 <= Systolic < 140mmHg==============\n")
+SetDtaGroupStarIndx = 30 # 120 / 80 / 80
+
+SetMode_Systolic = 0
+Coeff_M = 0.45 # 0.50
+Coeff_H = 0.50 # 0.51
+Coeff_L = 0.40 # 0.49
+
+#bv.QMS_VerifyBPM(RawData_List, 1, Coeff_M, Coeff_H, Coeff_L, 38, SetMode_Systolic, True) # False
+#bv.QMS_VerifyBPM(RawData_List, 10, Coeff_M, Coeff_H, Coeff_L, SetDtaGroupStarIndx, SetMode_Systolic, False) # False
+
+
+SetMode_Distolic = 1
+Coeff_M = 0.46
+Coeff_H = 0.47
+Coeff_L = 0.45
+
+#bv.QMS_VerifyBPM(RawData_List, 10, Coeff_M, Coeff_H, Coeff_L, SetDtaGroupStarIndx, SetMode_Distolic, False) # False
+
+print("\n ============== Verify Coeff  , 150 / 100 / 80 , 140 <= Systolic < 190mmHg==============\n")
+SetDtaGroupStarIndx = 40 # 150 / 100 / 80
+
+SetMode_Systolic = 0
+Coeff_M = 0.46 # 0.45
+Coeff_H = 0.52 # 0.47
+Coeff_L = 0.49 # 0.46
+
+#bv.QMS_VerifyBPM(RawData_List, 1, Coeff_M, Coeff_H, Coeff_L, 41, SetMode_Systolic, True) # False
+bv.QMS_VerifyBPM(RawData_List, 10, Coeff_M, Coeff_H, Coeff_L, SetDtaGroupStarIndx, SetMode_Systolic, False) # False
+
+
+SetMode_Distolic = 1
+Coeff_M = 0.45
+Coeff_H = 0.46
+Coeff_L = 0.44
+
+#bv.QMS_VerifyBPM(RawData_List, 10, Coeff_M, Coeff_H, Coeff_L, SetDtaGroupStarIndx, SetMode_Distolic, True) # False
+
+print("\n ============== Verify Coeff  , 200 / 150 / 80 , 190 <= Systolic < 245mmHg==============\n")
+SetDtaGroupStarIndx = 50 # 200 / 150 / 80
+
+SetMode_Systolic = 0
+Coeff_M = 0.46 # 0.46
+Coeff_H = 0.49 # 0.49
+Coeff_L = 0.43 # 0.43
+
+#bv.QMS_VerifyBPM(RawData_List, 1, Coeff_M, Coeff_H, Coeff_L, 41, SetMode_Systolic, True) # False
+bv.QMS_VerifyBPM(RawData_List, 10, Coeff_M, Coeff_H, Coeff_L, SetDtaGroupStarIndx, SetMode_Systolic, True) # False
+
+
+SetMode_Distolic = 1
+Coeff_M = 0.45 # 0.45
+Coeff_H = 0.47 # 0.49
+Coeff_L = 0.44 # 0.41
+
+bv.QMS_VerifyBPM(RawData_List, 10, Coeff_M, Coeff_H, Coeff_L, SetDtaGroupStarIndx, SetMode_Distolic, True) # False
+
 
 """================================================ Dump data to CSV  ==========================="""
 
