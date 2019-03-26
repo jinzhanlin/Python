@@ -55,7 +55,7 @@ def ChkTargetmmHg_NearWithinFive(AmpArray, mmHgArray, SetSystolic, MaxAmpValue, 
 
     Systolic_mmHg = mmHgArray[SetSystolicIndex]
 
-    if np.abs(Systolic_mmHg - SetSystolic) <= 5:
+    if np.abs(Systolic_mmHg - SetSystolic) <= 3:# 找mmHg跟目標mmHg 差三的數值
         Target_mmHgIndx_Coeff = TargetmmHg_Coeff(AmpArray, mmHgArray, Systolic_mmHg, MaxAmpValue)
     else:
         Target_mmHgIndx_Coeff = np.zeros(4)
